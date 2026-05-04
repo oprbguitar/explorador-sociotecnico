@@ -18,14 +18,61 @@ document.addEventListener('DOMContentLoaded', () => {
     // Populate Filters - Ejes
     SystemCore.axes.forEach(axis => {
         const li = document.createElement('li');
+        li.style.cursor = 'pointer';
         li.innerHTML = `
-            <div>
+            <div class="eje-label" data-id="${axis.id}" style="flex: 1; display: flex; align-items: center;">
                 <span class="eje-dot" style="background-color: ${axis.color}"></span>
                 ${axis.shortName}
             </div>
-            <i data-lucide="eye" class="icon-sm" style="color: var(--text-muted); cursor: pointer;"></i>
+            <i data-lucide="eye" class="icon-sm eye-toggle" data-id="${axis.id}" style="color: var(--primary); cursor: pointer;"></i>
         `;
         ejesToggles.appendChild(li);
+    });
+
+    // Add click events to Sidebar Ejes
+    document.querySelectorAll('.eje-label').forEach(el => {
+        el.addEventListener('click', (e) => {
+            const id = e.currentTarget.getAttribute('data-id');
+            openDetailPanel(id);
+            
+            // Highlight node in cytoscape
+            if (cy) {
+                cy.nodes().style('opacity', 0.3);
+                cy.nodes(`[id="${id}"]`).style('opacity', 1);
+                setTimeout(() => cy.nodes().style('opacity', 1), 2000);
+            }
+        });
+    });
+
+    document.querySelectorAll('.eye-toggle').forEach(el => {
+        el.addEventListener('click', (e) => {
+            const id = e.currentTarget.getAttribute('data-id');
+            const icon = e.currentTarget;
+            if (cy) {
+                const node = cy.getElementById(id);
+                if (node.style('display') === 'none') {
+                    node.style('display', 'element');
+                    icon.style.color = 'var(--primary)';
+                } else {
+                    node.style('display', 'none');
+                    icon.style.color = 'var(--text-muted)';
+                }
+            }
+        });
+    });
+
+    // Top Tabs functionality
+    const topTabs = document.querySelectorAll('.tabs li');
+    topTabs.forEach(tab => {
+        tab.addEventListener('click', (e) => {
+            topTabs.forEach(t => t.classList.remove('active'));
+            e.currentTarget.classList.add('active');
+            
+            const tabName = e.currentTarget.getAttribute('data-tab');
+            if(tabName === 'ciclo') {
+                document.getElementById('cycle-stages-container').scrollIntoView({behavior: 'smooth'});
+            }
+        });
     });
 
     // Populate Cycle Stages
