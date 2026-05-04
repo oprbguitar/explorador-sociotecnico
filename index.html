@@ -1,174 +1,213 @@
 <!DOCTYPE html>
-<html lang="es" class="dark">
+<html lang="es" class="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guía Interactiva Socio-Técnica</title>
+    <title>Explorador de Sistemas - Marco Socio-Técnico del Perú</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.26.0/cytoscape.min.js"></script>
 </head>
 <body>
     <div id="app-container">
-        <!-- Sidebar Navigation -->
-        <nav id="sidebar">
-            <div class="logo">
-                <i data-lucide="network"></i>
-                <span>Guía Socio-Técnica</span>
+        
+        <!-- Left Sidebar - Icon Strip -->
+        <nav id="icon-sidebar">
+            <div class="logo-box">
+                <i data-lucide="compass" class="logo-icon"></i>
             </div>
-            
-            <ul class="nav-links">
-                <li class="active" data-view="mapa"><i data-lucide="map"></i> Mapa General</li>
-                <li data-view="ejes"><i data-lucide="layers"></i> Detalle de Ejes</li>
-                <li data-view="relaciones"><i data-lucide="share-2"></i> Relaciones Causales</li>
-                <li data-view="ciclo"><i data-lucide="rotate-cw"></i> Ciclo Dinámico</li>
-                <li data-view="evidencias"><i data-lucide="book-open"></i> Evidencias (Fuentes)</li>
-                <li data-view="comparador"><i data-lucide="columns"></i> Comparador</li>
+            <ul class="icon-nav">
+                <li class="active" title="Explorar"><i data-lucide="leaf"></i><span>Explorar</span></li>
+                <li title="Mapa"><i data-lucide="share-2"></i><span>Mapa</span></li>
+                <li title="Tablero"><i data-lucide="layout-dashboard"></i><span>Tablero</span></li>
+                <li title="Indicadores"><i data-lucide="bar-chart-2"></i><span>Indicadores</span></li>
+                <li title="Escenarios"><i data-lucide="activity"></i><span>Escenarios</span></li>
+                <li title="Fuentes"><i data-lucide="book-open"></i><span>Fuentes</span></li>
+                <li title="Glosario"><i data-lucide="book"></i><span>Glosario</span></li>
             </ul>
-
-            <div class="system-status">
-                <div class="status-indicator">
-                    <span class="dot"></span>
-                    <span id="status-text">MODO: CONSTRUCTOR</span>
-                </div>
+            <div class="icon-nav-bottom">
+                <li id="theme-toggle" title="Configuración"><i data-lucide="moon"></i><span>Config.</span></li>
             </div>
         </nav>
 
-        <!-- Main Content Area -->
-        <main id="main-content">
-            <!-- Topbar -->
-            <header class="topbar">
-                <div class="breadcrumbs" id="breadcrumbs">
-                    /mapa
+        <!-- Left Sidebar - Filters Panel -->
+        <aside id="filters-sidebar">
+            <div class="sidebar-header">
+                <h3>Explorador de Sistemas</h3>
+                <p>Marco Socio-Técnico del Perú</p>
+            </div>
+            
+            <div class="filter-section">
+                <h4>Filtros</h4>
+                <div class="filter-group">
+                    <label class="checkbox-label"><input type="checkbox" checked> Relaciones reforzadoras (R)</label>
+                    <label class="checkbox-label"><input type="checkbox" checked> Relaciones balanceadoras (B)</label>
+                    <label class="checkbox-label"><input type="checkbox" checked> Variables clave</label>
+                    <label class="checkbox-label"><input type="checkbox"> Evidencias</label>
                 </div>
-                <div class="actions">
-                    <button id="theme-toggle" class="icon-btn" title="Toggle Dark Mode">
-                        <i data-lucide="sun"></i>
-                    </button>
-                    <button id="load-fuentes-btn" class="btn primary">
-                        <i data-lucide="folder-open"></i>
-                        <span>Cargar carpeta "fuentes"</span>
-                    </button>
-                    <input type="file" id="folder-input" webkitdirectory directory multiple style="display: none;">
+            </div>
+
+            <div class="filter-section">
+                <h4>Ejes</h4>
+                <ul class="ejes-list" id="ejes-toggles">
+                    <!-- Populated by JS -->
+                </ul>
+            </div>
+
+            <div class="filter-section">
+                <h4>Nivel de análisis</h4>
+                <select class="custom-select">
+                    <option>Nacional</option>
+                    <option>Regional</option>
+                    <option>Local</option>
+                </select>
+            </div>
+
+            <div class="filter-section">
+                <h4>Capas</h4>
+                <div class="filter-group">
+                    <label class="checkbox-label"><input type="checkbox" checked> Gobernanza</label>
+                    <label class="checkbox-label"><input type="checkbox" checked> Económico</label>
+                    <label class="checkbox-label"><input type="checkbox" checked> Sociocultural</label>
+                    <label class="checkbox-label"><input type="checkbox"> Tecnológico</label>
+                    <label class="checkbox-label"><input type="checkbox"> Ambiental</label>
+                </div>
+            </div>
+
+            <button class="btn-outline w-full"><i data-lucide="refresh-cw" class="icon-sm"></i> Restablecer filtros</button>
+        </aside>
+
+        <!-- Main Workspace -->
+        <main id="main-workspace">
+            <!-- Top Header -->
+            <header class="top-header">
+                <div class="header-title">
+                    <h1>Marco Socio-Técnico de Cinco Ejes para el Perú</h1>
+                    <span class="badge">Version 1.0</span>
+                    <span class="save-status">Guardado 10:24</span>
+                </div>
+                <div class="header-actions">
+                    <button class="btn-text"><i data-lucide="share-2"></i> Compartir</button>
+                    <button class="btn-text"><i data-lucide="download"></i> Exportar</button>
+                    <div class="icon-btn"><i data-lucide="bell"></i></div>
+                    <div class="avatar">AM</div>
                 </div>
             </header>
 
-            <!-- Views -->
-            <div class="views-container">
-                <!-- VISTA 1: MAPA GENERAL -->
-                <section id="view-mapa" class="view active">
-                    <header class="view-header">
-                        <h1>Arquitectura del Sistema</h1>
-                        <p>Exploración libre del marco socio-técnico.</p>
-                    </header>
-                    <div class="visualization-container" id="cy-container">
-                        <!-- Cytoscape Network goes here -->
-                    </div>
-                </section>
-
-                <!-- VISTA 2: DETALLE DE EJES -->
-                <section id="view-ejes" class="view">
-                    <header class="view-header">
-                        <h1>Detalle de Subsistema</h1>
-                        <div class="axis-selector" id="axis-selector">
-                            <!-- Buttons populated dynamically -->
-                        </div>
-                    </header>
-                    <div class="axis-details glass-panel" id="axis-details-content">
-                        <div class="empty-state">Selecciona un eje para ver sus detalles.</div>
-                    </div>
-                </section>
-
-                <!-- VISTA 3: RELACIONES -->
-                <section id="view-relaciones" class="view">
-                    <header class="view-header">
-                        <h1>Matriz de Influencias Causales</h1>
-                    </header>
-                    <div class="relations-grid glass-panel" id="relations-matrix">
-                        <!-- Matrix dynamically generated -->
-                    </div>
-                </section>
-
-                <!-- VISTA 4: CICLO DINÁMICO -->
-                <section id="view-ciclo" class="view">
-                    <header class="view-header">
-                        <h1>Ciclo Dinámico de Transformación</h1>
-                        <button id="simulate-btn" class="btn secondary"><i data-lucide="play"></i> Simular Ciclo</button>
-                    </header>
-                    <div class="cycle-container glass-panel">
-                        <div class="cycle-stages">
-                            <div class="stage" data-stage="1">
-                                <h3>1. Expansión</h3>
-                                <p>Integración, crecimiento, acoplamiento.</p>
-                            </div>
-                            <div class="stage" data-stage="2">
-                                <h3>2. Saturación</h3>
-                                <p>Choques, presiones, resistencias.</p>
-                            </div>
-                            <div class="stage" data-stage="3">
-                                <h3>3. Crisis</h3>
-                                <p>Conflicto, declive, deslegitimación.</p>
-                            </div>
-                            <div class="stage" data-stage="4">
-                                <h3>4. Reconfiguración</h3>
-                                <p>Innovación, adaptación, nuevas síntesis.</p>
-                            </div>
-                        </div>
-                        <div class="simulation-feedback" id="simulation-output">
-                            Presiona "Simular" para observar la dinámica.
-                        </div>
-                    </div>
-                </section>
-
-                <!-- VISTA 5: BANCO DE EVIDENCIAS -->
-                <section id="view-evidencias" class="view">
-                    <header class="view-header">
-                        <h1>Banco de Evidencias</h1>
-                        <p>Información procesada de la carpeta fuentes.</p>
-                    </header>
-                    <div class="evidence-list" id="evidence-container">
-                        <!-- Evidence cards injected here -->
-                        <div class="empty-state">No hay evidencias cargadas. Usa el botón superior para procesar fuentes locales.</div>
-                    </div>
-                </section>
-
-                <!-- VISTA 6: COMPARADOR -->
-                <section id="view-comparador" class="view">
-                    <header class="view-header">
-                        <h1>Comparador de Sistemas</h1>
-                    </header>
-                    <div class="comparator-layout">
-                        <div class="compare-col glass-panel">
-                            <select id="compare-select-1" class="custom-select">
-                                <option value="">Selecciona elemento...</option>
-                            </select>
-                            <div id="compare-content-1" class="compare-content"></div>
-                        </div>
-                        <div class="compare-col glass-panel">
-                            <select id="compare-select-2" class="custom-select">
-                                <option value="">Selecciona elemento...</option>
-                            </select>
-                            <div id="compare-content-2" class="compare-content"></div>
-                        </div>
-                    </div>
-                </section>
-            </div>
-
-            <!-- Chat Interface for Agent Commands -->
-            <div class="terminal-chat" id="terminal-chat">
-                <div class="chat-history" id="chat-history">
-                    <div class="chat-msg system">
-                        <strong>Sistema:</strong> Inicialización completada. El sistema está activo.<br>
-                        Vistas disponibles en el menú. ¿Quieres exploración libre o lectura guiada?<br>
-                        <em>Puedes escribir comandos como /mapa, /eje [nombre], /resumen.</em>
-                    </div>
-                </div>
-                <div class="chat-input-area">
-                    <input type="text" id="chat-input" placeholder="Ingresa un comando o pregunta...">
-                    <button id="send-cmd" class="icon-btn"><i data-lucide="send"></i></button>
+            <!-- Tabs -->
+            <div class="tabs-container">
+                <ul class="tabs">
+                    <li class="active" data-tab="sistema"><i data-lucide="network"></i> Sistema</li>
+                    <li data-tab="ejes"><i data-lucide="layers"></i> Ejes</li>
+                    <li data-tab="relaciones"><i data-lucide="git-merge"></i> Relaciones</li>
+                    <li data-tab="ciclo"><i data-lucide="rotate-cw"></i> Ciclo</li>
+                    <li data-tab="evidencias"><i data-lucide="book-open"></i> Evidencias</li>
+                    <li data-tab="comparador"><i data-lucide="columns"></i> Comparador</li>
+                    <li data-tab="simulacion"><i data-lucide="activity"></i> Simulación</li>
+                </ul>
+                <div class="view-selector">
+                    <span>Vista</span>
+                    <select class="custom-select-sm">
+                        <option>Mapa causal</option>
+                    </select>
+                    <button class="icon-btn"><i data-lucide="sliders"></i></button>
                 </div>
             </div>
+
+            <!-- Content Area -->
+            <div class="content-area">
+                
+                <!-- Graph Visualization -->
+                <div class="map-container card">
+                    <div id="cy-container"></div>
+                    <div class="map-legend">
+                        <span class="legend-item"><span class="legend-icon r-icon">R</span> Reforzadora</span>
+                        <span class="legend-item"><span class="legend-icon b-icon">B</span> Balanceadora</span>
+                        <span class="legend-item"><i data-lucide="arrow-right" class="icon-sm"></i> Relación unidireccional</span>
+                    </div>
+                    <div class="map-controls">
+                        <select class="custom-select-sm"><option>100%</option></select>
+                        <button class="icon-btn"><i data-lucide="maximize"></i></button>
+                    </div>
+                </div>
+
+                <!-- Right Detail Panel -->
+                <div class="detail-panel card" id="detail-panel" style="display: none;">
+                    <div class="panel-header">
+                        <div class="axis-title" id="dp-title">
+                            <span class="axis-number" id="dp-number">1</span>
+                            <div>
+                                <h2 id="dp-name">REGIONAL</h2>
+                                <p>Eje del sistema</p>
+                            </div>
+                        </div>
+                        <button class="icon-btn" id="close-panel"><i data-lucide="x"></i></button>
+                    </div>
+                    
+                    <ul class="panel-tabs">
+                        <li class="active">Resumen</li>
+                        <li>Variables</li>
+                        <li>Relaciones</li>
+                        <li>Indicadores</li>
+                    </ul>
+
+                    <div class="panel-body">
+                        <div class="grid-3">
+                            <div>
+                                <h5>ENTRADAS</h5>
+                                <ul class="text-list" id="dp-entradas"></ul>
+                            </div>
+                            <div>
+                                <h5>PROCESOS</h5>
+                                <ul class="text-list" id="dp-procesos"></ul>
+                            </div>
+                            <div>
+                                <h5>SALIDAS</h5>
+                                <ul class="text-list" id="dp-salidas"></ul>
+                            </div>
+                        </div>
+
+                        <div class="section-divider">
+                            <h4>Variables clave</h4>
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Variable</th>
+                                        <th>Tipo</th>
+                                        <th>Tendencia</th>
+                                        <th>Impacto</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="dp-variables"></tbody>
+                            </table>
+                        </div>
+
+                        <div class="section-divider">
+                            <div class="flex-between">
+                                <h4>Evidencias relacionadas</h4>
+                                <a href="#" class="link">Ver todas</a>
+                            </div>
+                            <div class="evidencias-list" id="dp-evidencias"></div>
+                        </div>
+
+                        <div class="section-divider flex-between mt-auto">
+                            <h4>Notas <span class="badge-count">(0)</span></h4>
+                            <button class="btn-primary-sm"><i data-lucide="plus" class="icon-sm"></i> Agregar nota</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Bottom Cycle Area -->
+            <div class="cycle-area">
+                <h4 class="cycle-title">CICLO DEL SISTEMA</h4>
+                <div class="cycle-stages" id="cycle-stages-container">
+                    <!-- JS Injected -->
+                </div>
+            </div>
+
         </main>
     </div>
 
