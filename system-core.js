@@ -102,10 +102,10 @@ const SystemCore = {
     ],
 
     cycleStages: [
-        { id: 1, name: 'EXPANSION', desc: 'Aumenta integración con mercados, conectividad, migración y circulación de normas.' },
-        { id: 2, name: 'SATURACION', desc: 'Servicios, cuerpos, identidades y territorios absorben más presión que capacidad de ajuste.' },
-        { id: 3, name: 'CRISIS', desc: 'Aparecen conflicto, malestar, doble carga nutricional, desconfianza o ruptura ecológica.' },
-        { id: 4, name: 'RECONFIGURACION', desc: 'Surgen regulaciones, redes comunitarias, hibridaciones, retornos locales o nuevos arreglos.' }
+        { id: 1, name: 'EXPANSION', desc: 'Aumenta integración con mercados, conectividad, migración y circulación de normas.', output: 'Acumulación de inputs externos' },
+        { id: 2, name: 'SATURACION', desc: 'Servicios, cuerpos, identidades y territorios absorben más presión que capacidad de ajuste.', output: 'Estrés sistémico y cuellos de botella' },
+        { id: 3, name: 'CRISIS', desc: 'Aparecen conflicto, malestar, doble carga nutricional, desconfianza o ruptura ecológica.', output: 'Umbral crítico superado' },
+        { id: 4, name: 'RECONFIGURACION', desc: 'Surgen regulaciones, redes comunitarias, hibridaciones, retornos locales o nuevos arreglos.', output: 'Nuevo piso de normalidad informal' }
     ],
 
     initSourcesData: function() {

@@ -62,14 +62,6 @@
                 </select>
             </div>
 
-            <div class="filter-section">
-                <h4>Explorador de Datos</h4>
-                <button class="btn-primary w-full" id="load-local-btn" style="margin-bottom: 0.5rem; justify-content: center; padding: 0.5rem; display: flex; align-items: center; gap: 0.5rem; background: var(--primary); color: white; border: none; border-radius: 4px; cursor: pointer;">
-                    <i data-lucide="folder-open" class="icon-sm"></i> Cargar fuentes locales
-                </button>
-                <input type="file" id="folder-input" webkitdirectory directory multiple style="display: none;">
-            </div>
-
             <button class="btn-outline w-full" id="reset-filters-btn"><i data-lucide="refresh-cw" class="icon-sm"></i> Restablecer vista</button>
         </aside>
 
@@ -96,9 +88,10 @@
             <div class="tabs-container">
                 <ul class="tabs">
                     <li class="active" data-target="view-sistema"><i data-lucide="network"></i> Sistema</li>
-                    <li data-target="view-relaciones"><i data-lucide="git-merge"></i> Matriz Relaciones</li>
-                    <li data-target="view-evidencias"><i data-lucide="book-open"></i> Banco Evidencias</li>
-                    <li data-target="view-comparador"><i data-lucide="columns"></i> Comparador Ejes</li>
+                    <li data-target="view-relaciones"><i data-lucide="git-merge"></i> Relaciones</li>
+                    <li data-target="view-indicadores"><i data-lucide="bar-chart-2"></i> Indicadores</li>
+                    <li data-target="view-evidencias"><i data-lucide="book-open"></i> Evidencias</li>
+                    <li data-target="view-comparador"><i data-lucide="columns"></i> Comparador</li>
                     <li data-target="view-simulacion"><i data-lucide="activity"></i> Simulación</li>
                     <li data-target="view-glosario"><i data-lucide="book"></i> Glosario</li>
                 </ul>
@@ -183,6 +176,13 @@
                     <h2>Matriz de Influencias Causales</h2>
                     <p style="color: var(--text-muted); margin-bottom: 2rem;">Exploración de lazos de retroalimentación directa y mediada en el Perú.</p>
                     <div id="relations-list" style="display: grid; gap: 1rem;"></div>
+                </div>
+
+                <!-- VIEW 2.5: INDICADORES CLAVE -->
+                <div class="view-section card" id="view-indicadores" style="display: none; padding: 2rem; width: 100%; overflow-y: auto;">
+                    <h2>Tablero de Indicadores Clave del Sistema</h2>
+                    <p style="color: var(--text-muted); margin-bottom: 2rem;">Métricas extraídas de las fuentes para entender el comportamiento y tensión de cada Eje.</p>
+                    <div id="indicadores-list" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;"></div>
                 </div>
 
                 <!-- VIEW 3: BANCO DE EVIDENCIAS -->

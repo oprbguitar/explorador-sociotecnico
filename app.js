@@ -108,6 +108,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 cy.resize();
             } else if (targetId === 'view-relaciones') {
                 populateRelaciones();
+            } else if (targetId === 'view-indicadores') {
+                populateIndicadores();
             } else if (targetId === 'view-evidencias') {
                 populateEvidencias();
             } else if (targetId === 'view-comparador') {
@@ -127,24 +129,13 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="cycle-content">
                 <h4 style="color: var(--text-main);">${stage.name}</h4>
                 <p>${stage.desc}</p>
+                <div style="margin-top: 0.5rem; font-size: 0.7rem; color: ${idx===0 ? '#00b0b9' : idx===1 ? '#6366f1' : idx===2 ? '#ef4444' : '#22c55e'}; font-weight: bold;">
+                    RESULTADO: ${stage.output}
+                </div>
             </div>
         `;
         cycleContainer.appendChild(div);
     });
-
-    // Local Files Loader
-    const folderInput = document.getElementById('folder-input');
-    const loadBtn = document.getElementById('load-local-btn');
-    
-    if (loadBtn && folderInput) {
-        loadBtn.addEventListener('click', () => folderInput.click());
-        folderInput.addEventListener('change', (e) => {
-            if (e.target.files.length > 0) {
-                alert(`Simulación: ${e.target.files.length} archivos locales procesados y añadidos al banco de evidencias.`);
-                document.querySelector('[data-target="view-evidencias"]').click();
-            }
-        });
-    }
 
     lucide.createIcons();
 
@@ -358,6 +349,36 @@ document.addEventListener('DOMContentLoaded', () => {
         lucide.createIcons();
     }
 
+    function populateIndicadores() {
+        const container = document.getElementById('indicadores-list');
+        container.innerHTML = '';
+        SystemCore.axes.forEach(axis => {
+            axis.stateVariables.forEach(v => {
+                const div = document.createElement('div');
+                div.style.padding = '1.5rem';
+                div.style.background = 'var(--bg-main)';
+                div.style.borderRadius = '8px';
+                div.style.borderLeft = `4px solid ${axis.color}`;
+                div.style.borderTop = '1px solid var(--border-light)';
+                div.style.borderRight = '1px solid var(--border-light)';
+                div.style.borderBottom = '1px solid var(--border-light)';
+                
+                div.innerHTML = `
+                    <div style="color: ${axis.color}; font-size: 0.75rem; font-weight: bold; margin-bottom: 0.5rem; text-transform: uppercase;">
+                        EJE: ${axis.shortName}
+                    </div>
+                    <h3 style="color: var(--text-main); margin-bottom: 0.5rem; font-size: 1.1rem;">${v.name}</h3>
+                    <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                        <span class="badge" style="background: var(--bg-dark); color: white;">Tipo: ${v.type}</span>
+                        <span class="badge" style="background: var(--bg-panel); border: 1px solid var(--border-dark);">Tendencia: <strong style="color: ${v.trend === '↑' ? 'var(--eje-4)' : (v.trend === '↓' ? 'var(--eje-5)' : 'var(--text-muted)')}; font-size: 1.1rem;">${v.trend}</strong></span>
+                        <span class="badge" style="background: var(--bg-panel); border: 1px solid var(--border-dark);">Impacto: ${v.impact}</span>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        });
+    }
+
     function populateComparador() {
         const sel1 = document.getElementById('comp-1');
         const sel2 = document.getElementById('comp-2');
@@ -375,14 +396,48 @@ document.addEventListener('DOMContentLoaded', () => {
                 const res = document.getElementById(resId);
                 if (!val) { res.innerHTML = 'Selecciona un eje.'; return; }
                 const axis = SystemCore.axes.find(a => a.id === val);
+                
+                // Find relationships with other axes
+                const influences = SystemCore.relations.filter(r => r.source === axis.id);
+                const influencedBy = SystemCore.relations.filter(r => r.target === axis.id);
+                
                 res.innerHTML = `
-                    <h3 style="color: ${axis.color}; margin-bottom: 1rem;">${axis.name}</h3>
-                    <p style="margin-bottom: 1rem; color: var(--text-muted);">${axis.role}</p>
+                    <h3 style="color: ${axis.color}; margin-bottom: 1rem; font-size: 1.3rem;">${axis.name}</h3>
+                    <p style="margin-bottom: 1.5rem; color: var(--text-muted); font-size: 0.9rem;"><strong>Rol en el Sistema:</strong> ${axis.role}</p>
+                    
+                    <div style="background: #ffffff; padding: 1rem; border-radius: 6px; border: 1px solid var(--border-light); margin-bottom: 1rem;">
+                        <h5 style="margin-bottom: 0.5rem; color: var(--primary);">Procesos Internos Críticos</h5>
+                        <ul style="padding-left: 1.5rem; font-size: 0.85rem; color: var(--text-main);">
+                            ${axis.processes.map(p => `<li>${p}</li>`).join('')}
+                        </ul>
+                    </div>
+                    
+                    <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                        <div style="flex: 1; background: #ffffff; padding: 1rem; border-radius: 6px; border: 1px solid var(--border-light);">
+                            <h5 style="margin-bottom: 0.5rem; color: var(--eje-4);">¿A quién afecta?</h5>
+                            <ul style="padding-left: 1rem; font-size: 0.8rem; color: var(--text-muted); list-style-type: none;">
+                                ${influences.length > 0 ? influences.map(i => {
+                                    const targetName = SystemCore.axes.find(a => a.id === i.target).shortName;
+                                    return `<li>➔ ${targetName} (Lazo ${i.loop})</li>`;
+                                }).join('') : '<li>Ninguno directo</li>'}
+                            </ul>
+                        </div>
+                        <div style="flex: 1; background: #ffffff; padding: 1rem; border-radius: 6px; border: 1px solid var(--border-light);">
+                            <h5 style="margin-bottom: 0.5rem; color: var(--eje-2);">¿Quién lo afecta?</h5>
+                            <ul style="padding-left: 1rem; font-size: 0.8rem; color: var(--text-muted); list-style-type: none;">
+                                ${influencedBy.length > 0 ? influencedBy.map(i => {
+                                    const sourceName = SystemCore.axes.find(a => a.id === i.source).shortName;
+                                    return `<li>← ${sourceName} (Lazo ${i.loop})</li>`;
+                                }).join('') : '<li>Ninguno directo</li>'}
+                            </ul>
+                        </div>
+                    </div>
+                    
                     <h5 style="margin-bottom: 0.5rem;">Variables Clave</h5>
                     <ul style="padding-left: 1.5rem; margin-bottom: 1rem; font-size: 0.85rem; color: var(--text-main);">
                         ${axis.stateVariables.map(v => `<li>${v.name} (${v.trend})</li>`).join('')}
                     </ul>
-                    <h5 style="margin-bottom: 0.5rem;">Salidas Principales</h5>
+                    <h5 style="margin-bottom: 0.5rem;">Salidas (Outputs)</h5>
                     <ul style="padding-left: 1.5rem; font-size: 0.85rem; color: var(--text-main);">
                         ${axis.outputs.map(o => `<li>${o}</li>`).join('')}
                     </ul>
@@ -506,10 +561,10 @@ document.addEventListener('DOMContentLoaded', () => {
             // Map side icons to top tabs for functionality
             if(text === 'Mapa' || text === 'Explorar') document.querySelector('[data-target="view-sistema"]').click();
             else if(text === 'Tablero') document.querySelector('[data-target="view-comparador"]').click();
-            else if(text === 'Indicadores') document.querySelector('[data-target="view-relaciones"]').click();
+            else if(text === 'Indicadores') document.querySelector('[data-target="view-indicadores"]').click();
             else if(text === 'Escenarios') document.querySelector('[data-target="view-simulacion"]').click();
             else if(text === 'Fuentes') document.querySelector('[data-target="view-evidencias"]').click();
-            else if(text === 'Glosario') alert('Glosario de términos sociológicos (Matos Mar, Quijano, etc) estará disponible en v2.0.');
+            else if(text === 'Glosario') document.querySelector('[data-target="view-glosario"]').click();
         });
     });
 
