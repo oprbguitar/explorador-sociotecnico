@@ -164,20 +164,41 @@ const SystemCore = {
     },
 
     metodologia: [
-        { fuente: 'Tesis INEI & Documentos Demográficos', tipo: 'Empírica Cuantitativa', aporte: 'Validación del Eje Regional. Permitió estructurar las variables de Estado y Flujo poblacional, demostrando matemáticamente cómo la concentración en 26 ciudades fuerza el desborde de servicios.' },
-        { fuente: 'José Matos Mar (Desborde Popular)', tipo: 'Teórica Histórica', aporte: 'Proveyó el mecanismo causal (Lazo Reforzador) entre la migración andina y la creación de redes informales urbanas (Eje Accionar Social).' },
-        { fuente: 'Aníbal Quijano (Colonialidad del Poder)', tipo: 'Teórica Decolonial', aporte: 'Configuró el Eje Identidad. Explicó por qué la asimilación global no es horizontal, sino que opera bajo sistemas de jerarquización racializados que tensionan el Yo mestizo.' },
-        { fuente: 'Datos ENDES (Salud Nutricional)', tipo: 'Empírica Epidemiológica', aporte: 'Fundamentó el Eje de Nutrición Globalizada al demostrar cuantitativamente la "Doble Carga Nutricional": coexistencia de desnutrición crónica (sierra/selva) y obesidad explosiva por UPFs.' },
-        { fuente: 'García Canclini (Culturas Híbridas)', tipo: 'Teórica Cultural', aporte: 'Determinó el concepto de "Reconfiguración". Permitió entender que la crisis de identidad en Perú no termina en colapso, sino en "hibridación" (mezcla de la tradición con la modernidad tecnológica).' }
-    ],
-
-    glossary: [
-        { term: 'Desborde Popular', author: 'José Matos Mar', desc: 'Fenómeno migratorio del campo a la ciudad que rebasó la capacidad del Estado formal, obligando a las masas a construir una institucionalidad informal paralela para sobrevivir.' },
-        { term: 'Colonialidad del Poder', author: 'Aníbal Quijano', desc: 'Estructura de dominación global que clasifica a la población mundial alrededor de la idea de "raza", operando transversalmente en el Eje Identidad y Global.' },
-        { term: 'Transición Alimentaria', author: 'Evidencia ENDES', desc: 'Paso del consumo de dietas tradicionales (agrobiodiversidad) hacia dietas occidentales ricas en productos ultraprocesados (UPF), generando la "Doble carga nutricional".' },
-        { term: 'Lazo Reforzador (R)', author: 'Dinámica de Sistemas', desc: 'Bucle de retroalimentación positiva que amplifica el cambio o el crecimiento en una dirección (círculo vicioso o virtuoso).' },
-        { term: 'Lazo Balanceador (B)', author: 'Dinámica de Sistemas', desc: 'Bucle de retroalimentación negativa que busca la estabilidad, el control o la resistencia al cambio, limitando la acción de los lazos reforzadores.' },
-        { term: 'Hibridación', author: 'García Canclini', desc: 'Procesos socioculturales en los que estructuras o prácticas discretas, que existían de forma separada, se combinan para generar nuevas estructuras (Eje Identidad).' }
+        { 
+            fuente: 'Tesis INEI & Documentos Demográficos', 
+            tipo: 'Empírica Cuantitativa', 
+            aporte: 'Validación del Eje Regional. Permitió estructurar las variables de Estado y Flujo poblacional, demostrando matemáticamente cómo la concentración en 26 ciudades fuerza el desborde de servicios.',
+            enlace: './fuentes/deep-research-report (1).md',
+            detalles_extensos: 'El análisis poblacional del INEI proyecta cómo la masa migratoria presiona directamente los sistemas de saneamiento y vivienda, sirviendo como la "Entrada" principal al Lazo Reforzador de la informalidad urbana.'
+        },
+        { 
+            fuente: 'José Matos Mar (Desborde Popular)', 
+            tipo: 'Teórica Histórica', 
+            aporte: 'Proveyó el mecanismo causal (Lazo Reforzador) entre la migración andina y la creación de redes informales urbanas (Eje Accionar Social).',
+            enlace: './fuentes/Ingeniería Social_ Ejes y Tensiones.pdf',
+            detalles_extensos: 'Matos Mar argumenta que la informalidad no es una falla temporal, sino el nuevo sistema operativo del Perú urbano, donde las masas migrantes asimilan funciones que el Estado fue incapaz de proveer.'
+        },
+        { 
+            fuente: 'Aníbal Quijano (Colonialidad del Poder)', 
+            tipo: 'Teórica Decolonial', 
+            aporte: 'Configuró el Eje Identidad. Explicó por qué la asimilación global no es horizontal, sino que opera bajo sistemas de jerarquización racializados que tensionan el Yo mestizo.',
+            enlace: './fuentes/Ingeniería Social_ Ejes y Tensiones.pdf',
+            detalles_extensos: 'El marco de Quijano fundamenta por qué el Eje Identitario choca constantemente con las Influencias Globales: el sistema-mundo moderno clasifica a la población mediante el constructo mental de la "raza".'
+        },
+        { 
+            fuente: 'Datos ENDES (Salud Nutricional)', 
+            tipo: 'Empírica Epidemiológica', 
+            aporte: 'Fundamentó el Eje de Nutrición Globalizada al demostrar cuantitativamente la "Doble Carga Nutricional": coexistencia de desnutrición crónica (sierra/selva) y obesidad explosiva por UPFs.',
+            enlace: './fuentes/deep-research-report (2).md',
+            detalles_extensos: 'Muestra estadísticamente el ciclo de Saturación: mientras un 43% de niños en la sierra sufre anemia, el 86% a nivel nacional ya consume ultraprocesados (UPF), desplazando dietas de agrobiodiversidad.'
+        },
+        { 
+            fuente: 'García Canclini (Culturas Híbridas)', 
+            tipo: 'Teórica Cultural', 
+            aporte: 'Determinó el concepto de "Reconfiguración". Permitió entender que la crisis de identidad en Perú no termina en colapso, sino en "hibridación" (mezcla de la tradición con la modernidad tecnológica).',
+            enlace: './fuentes/Ingeniería Social_ Ejes y Tensiones.pdf',
+            detalles_extensos: 'Justifica teóricamente la última fase del ciclo sistémico (Reconfiguración): las identidades tradicionales no desaparecen, sino que se intersectan con flujos globales, generando estrategias de supervivencia híbridas.'
+        }
     ],
 
     getEvidenceForAxis: function(axisId) {

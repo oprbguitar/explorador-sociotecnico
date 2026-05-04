@@ -116,8 +116,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 populateFuentes();
             } else if (targetId === 'view-comparador') {
                 populateComparador();
-            } else if (targetId === 'view-glosario') {
-                populateGlosario();
             }
         });
     });
@@ -353,6 +351,7 @@ document.addEventListener('DOMContentLoaded', () => {
         SystemCore.axes.forEach(axis => {
             axis.stateVariables.forEach(v => {
                 const div = document.createElement('div');
+                div.className = 'dynamic-card';
                 div.style.padding = '1.5rem';
                 div.style.background = 'var(--bg-main)';
                 div.style.borderRadius = '8px';
@@ -459,14 +458,21 @@ document.addEventListener('DOMContentLoaded', () => {
             div.style.border = '1px solid var(--border-light)';
             
             div.innerHTML = `
-                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
-                    <i data-lucide="book-check" class="icon-sm" style="color: var(--primary);"></i>
-                    <h3 style="color: var(--primary); font-size: 1.1rem; margin: 0;">${m.fuente}</h3>
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <i data-lucide="book-check" class="icon-sm" style="color: var(--primary);"></i>
+                        <h3 style="color: var(--primary); font-size: 1.1rem; margin: 0;">${m.fuente}</h3>
+                    </div>
+                    <a href="https://github.com/oprbguitar/explorador-sociotecnico/tree/main/fuentes" target="_blank" style="color: var(--eje-2); text-decoration: none; font-size: 0.75rem; display: flex; align-items: center; gap: 0.25rem;"><i data-lucide="external-link" class="icon-sm"></i> Ver Fuente</a>
                 </div>
                 <p style="font-size: 0.75rem; font-weight: bold; color: var(--text-muted); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 1px;">Metodología: ${m.tipo}</p>
-                <div style="background: var(--bg-panel); padding: 1rem; border-radius: 8px; border-left: 3px solid var(--primary);">
+                <div style="background: var(--bg-panel); padding: 1rem; border-radius: 8px; border-left: 3px solid var(--primary); margin-bottom: 1rem;">
                     <strong style="display: block; margin-bottom: 0.25rem; font-size: 0.8rem; color: var(--text-main);">Aporte al Sistema:</strong>
                     <p style="font-size: 0.85rem; line-height: 1.6; color: var(--text-muted); margin: 0;">${m.aporte}</p>
+                </div>
+                <div style="background: rgba(99, 102, 241, 0.05); padding: 1rem; border-radius: 8px; border: 1px solid rgba(99, 102, 241, 0.2);">
+                    <strong style="display: block; margin-bottom: 0.25rem; font-size: 0.8rem; color: var(--eje-2);">Profundidad de Evidencia:</strong>
+                    <p style="font-size: 0.85rem; line-height: 1.6; color: var(--text-main); margin: 0;">${m.detalles_extensos}</p>
                 </div>
             `;
             container.appendChild(div);
@@ -474,25 +480,75 @@ document.addEventListener('DOMContentLoaded', () => {
         lucide.createIcons();
     }
 
-    function populateGlosario() {
-        const container = document.getElementById('glossary-list');
-        container.innerHTML = '';
-        SystemCore.glossary.forEach(g => {
-            const div = document.createElement('div');
-            div.style.padding = '1.5rem';
-            div.style.background = 'var(--bg-main)';
-            div.style.borderRadius = '8px';
-            div.style.border = '1px solid var(--border-light)';
+    function populateComparador() {
+        const sel1 = document.getElementById('comp-1');
+        const sel2 = document.getElementById('comp-2');
+        
+        if (sel1.options.length === 0) {
+            sel1.options.add(new Option('Selecciona un eje', ''));
+            sel2.options.add(new Option('Selecciona un eje', ''));
+            SystemCore.axes.forEach(a => {
+                sel1.options.add(new Option(a.name, a.id));
+                sel2.options.add(new Option(a.name, a.id));
+            });
             
-            div.innerHTML = `
-                <h3 style="color: var(--primary); margin-bottom: 0.5rem;">${g.term}</h3>
-                <p style="font-size: 0.75rem; font-weight: bold; color: var(--text-muted); margin-bottom: 1rem; text-transform: uppercase;">Autor/Fuente: ${g.author}</p>
-                <p style="font-size: 0.85rem; line-height: 1.5;">${g.desc}</p>
-            `;
-            container.appendChild(div);
-        });
-    }
+            const updateBox = (selectId, resId) => {
+                const val = document.getElementById(selectId).value;
+                const res = document.getElementById(resId);
+                if (!val) { res.innerHTML = 'Selecciona un eje.'; return; }
+                const axis = SystemCore.axes.find(a => a.id === val);
+                
+                // Find relationships with other axes
+                const influences = SystemCore.relations.filter(r => r.source === axis.id);
+                const influencedBy = SystemCore.relations.filter(r => r.target === axis.id);
+                
+                res.innerHTML = `
+                    <h3 style="color: ${axis.color}; margin-bottom: 1rem; font-size: 1.3rem;">${axis.name}</h3>
+                    <p style="margin-bottom: 1.5rem; color: var(--text-muted); font-size: 0.9rem;"><strong>Rol en el Sistema:</strong> ${axis.role}</p>
+                    
+                    <div style="background: #ffffff; padding: 1rem; border-radius: 6px; border: 1px solid var(--border-light); margin-bottom: 1rem;">
+                        <h5 style="margin-bottom: 0.5rem; color: var(--primary);">Procesos Internos Críticos</h5>
+                        <ul style="padding-left: 1.5rem; font-size: 0.85rem; color: var(--text-main);">
+                            ${axis.processes.map(p => `<li>${p}</li>`).join('')}
+                        </ul>
+                    </div>
+                    
+                    <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                        <div style="flex: 1; background: #ffffff; padding: 1rem; border-radius: 6px; border: 1px solid var(--border-light);">
+                            <h5 style="margin-bottom: 0.5rem; color: var(--eje-4);">¿A quién afecta?</h5>
+                            <ul style="padding-left: 1rem; font-size: 0.8rem; color: var(--text-muted); list-style-type: none;">
+                                ${influences.length > 0 ? influences.map(i => {
+                                    const targetName = SystemCore.axes.find(a => a.id === i.target).shortName;
+                                    return `<li>➔ ${targetName} (Lazo ${i.loop})</li>`;
+                                }).join('') : '<li>Ninguno directo</li>'}
+                            </ul>
+                        </div>
+                        <div style="flex: 1; background: #ffffff; padding: 1rem; border-radius: 6px; border: 1px solid var(--border-light);">
+                            <h5 style="margin-bottom: 0.5rem; color: var(--eje-2);">¿Quién lo afecta?</h5>
+                            <ul style="padding-left: 1rem; font-size: 0.8rem; color: var(--text-muted); list-style-type: none;">
+                                ${influencedBy.length > 0 ? influencedBy.map(i => {
+                                    const sourceName = SystemCore.axes.find(a => a.id === i.source).shortName;
+                                    return `<li>← ${sourceName} (Lazo ${i.loop})</li>`;
+                                }).join('') : '<li>Ninguno directo</li>'}
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h5 style="margin-bottom: 0.5rem;">Variables Clave</h5>
+                    <ul style="padding-left: 1.5rem; margin-bottom: 1rem; font-size: 0.85rem; color: var(--text-main);">
+                        ${axis.stateVariables.map(v => `<li>${v.name} (${v.trend})</li>`).join('')}
+                    </ul>
+                    <h5 style="margin-bottom: 0.5rem;">Salidas (Outputs)</h5>
+                    <ul style="padding-left: 1.5rem; font-size: 0.85rem; color: var(--text-main);">
+                        ${axis.outputs.map(o => `<li>${o}</li>`).join('')}
+                    </ul>
+                `;
+            };
 
+            sel1.addEventListener('change', () => updateBox('comp-1', 'comp-1-res'));
+            sel2.addEventListener('change', () => updateBox('comp-2', 'comp-2-res'));
+        }
+    }
     // Simulador Logic
     const simBtn = document.getElementById('btn-run-sim');
     const simOutput = document.getElementById('sim-output-console');
@@ -589,7 +645,6 @@ document.addEventListener('DOMContentLoaded', () => {
             else if(text === 'Indicadores') document.querySelector('[data-target="view-indicadores"]').click();
             else if(text === 'Escenarios') document.querySelector('[data-target="view-simulacion"]').click();
             else if(text === 'Fuentes') document.querySelector('[data-target="view-fuentes"]').click();
-            else if(text === 'Glosario') document.querySelector('[data-target="view-glosario"]').click();
         });
     });
 
