@@ -27,7 +27,7 @@
                 <li title="Glosario"><i data-lucide="book"></i><span>Glosario</span></li>
             </ul>
             <div class="icon-nav-bottom">
-                <li id="theme-toggle" title="Configuración"><i data-lucide="moon"></i><span>Config.</span></li>
+                <li id="theme-toggle" title="Configuración / TemaOscuro"><i data-lucide="moon"></i><span>Tema</span></li>
             </div>
         </nav>
 
@@ -39,17 +39,15 @@
             </div>
             
             <div class="filter-section">
-                <h4>Filtros</h4>
+                <h4>Filtros del Grafo</h4>
                 <div class="filter-group">
-                    <label class="checkbox-label"><input type="checkbox" checked> Relaciones reforzadoras (R)</label>
-                    <label class="checkbox-label"><input type="checkbox" checked> Relaciones balanceadoras (B)</label>
-                    <label class="checkbox-label"><input type="checkbox" checked> Variables clave</label>
-                    <label class="checkbox-label"><input type="checkbox"> Evidencias</label>
+                    <label class="checkbox-label"><input type="checkbox" id="filter-r" checked> Relaciones reforzadoras (R)</label>
+                    <label class="checkbox-label"><input type="checkbox" id="filter-b" checked> Relaciones balanceadoras (B)</label>
                 </div>
             </div>
 
             <div class="filter-section">
-                <h4>Ejes</h4>
+                <h4>Ejes del Sistema</h4>
                 <ul class="ejes-list" id="ejes-toggles">
                     <!-- Populated by JS -->
                 </ul>
@@ -65,17 +63,14 @@
             </div>
 
             <div class="filter-section">
-                <h4>Capas</h4>
-                <div class="filter-group">
-                    <label class="checkbox-label"><input type="checkbox" checked> Gobernanza</label>
-                    <label class="checkbox-label"><input type="checkbox" checked> Económico</label>
-                    <label class="checkbox-label"><input type="checkbox" checked> Sociocultural</label>
-                    <label class="checkbox-label"><input type="checkbox"> Tecnológico</label>
-                    <label class="checkbox-label"><input type="checkbox"> Ambiental</label>
-                </div>
+                <h4>Explorador de Datos</h4>
+                <button class="btn-primary w-full" id="load-local-btn" style="margin-bottom: 0.5rem; justify-content: center; padding: 0.5rem; display: flex; align-items: center; gap: 0.5rem; background: var(--primary); color: white; border: none; border-radius: 4px; cursor: pointer;">
+                    <i data-lucide="folder-open" class="icon-sm"></i> Cargar fuentes locales
+                </button>
+                <input type="file" id="folder-input" webkitdirectory directory multiple style="display: none;">
             </div>
 
-            <button class="btn-outline w-full"><i data-lucide="refresh-cw" class="icon-sm"></i> Restablecer filtros</button>
+            <button class="btn-outline w-full" id="reset-filters-btn"><i data-lucide="refresh-cw" class="icon-sm"></i> Restablecer vista</button>
         </aside>
 
         <!-- Main Workspace -->
@@ -87,7 +82,7 @@
                     <button class="mobile-menu-btn" id="mobile-menu-btn"><i data-lucide="menu"></i></button>
                     <h1>Marco Socio-Técnico de Cinco Ejes para el Perú</h1>
                     <span class="badge">Version 1.0</span>
-                    <span class="save-status">Guardado 10:24</span>
+                    <span class="save-status">Sistema Activo</span>
                 </div>
                 <div class="header-actions">
                     <button class="btn-text"><i data-lucide="share-2"></i> Compartir</button>
@@ -100,103 +95,124 @@
             <!-- Tabs -->
             <div class="tabs-container">
                 <ul class="tabs">
-                    <li class="active" data-tab="sistema"><i data-lucide="network"></i> Sistema</li>
-                    <li data-tab="ejes"><i data-lucide="layers"></i> Ejes</li>
-                    <li data-tab="relaciones"><i data-lucide="git-merge"></i> Relaciones</li>
-                    <li data-tab="ciclo"><i data-lucide="rotate-cw"></i> Ciclo</li>
-                    <li data-tab="evidencias"><i data-lucide="book-open"></i> Evidencias</li>
-                    <li data-tab="comparador"><i data-lucide="columns"></i> Comparador</li>
-                    <li data-tab="simulacion"><i data-lucide="activity"></i> Simulación</li>
+                    <li class="active" data-target="view-sistema"><i data-lucide="network"></i> Sistema</li>
+                    <li data-target="view-relaciones"><i data-lucide="git-merge"></i> Matriz Relaciones</li>
+                    <li data-target="view-evidencias"><i data-lucide="book-open"></i> Banco Evidencias</li>
+                    <li data-target="view-comparador"><i data-lucide="columns"></i> Comparador Ejes</li>
+                    <li data-target="view-simulacion"><i data-lucide="activity"></i> Simulación</li>
                 </ul>
-                <div class="view-selector">
-                    <span>Vista</span>
-                    <select class="custom-select-sm">
-                        <option>Mapa causal</option>
-                    </select>
-                    <button class="icon-btn"><i data-lucide="sliders"></i></button>
-                </div>
             </div>
 
-            <!-- Content Area -->
-            <div class="content-area">
+            <!-- Content Area (Multi-View) -->
+            <div class="content-area" id="main-views-container">
                 
-                <!-- Graph Visualization -->
-                <div class="map-container card">
-                    <div id="cy-container"></div>
-                    <div class="map-legend">
-                        <span class="legend-item"><span class="legend-icon r-icon">R</span> Reforzadora</span>
-                        <span class="legend-item"><span class="legend-icon b-icon">B</span> Balanceadora</span>
-                        <span class="legend-item"><i data-lucide="arrow-right" class="icon-sm"></i> Relación unidireccional</span>
+                <!-- VIEW 1: SISTEMA (Map + Panel) -->
+                <div class="view-section active" id="view-sistema" style="display: flex; gap: 1.5rem; width: 100%; height: 100%;">
+                    <!-- Graph Visualization -->
+                    <div class="map-container card">
+                        <div id="cy-container"></div>
+                        <div class="map-legend">
+                            <span class="legend-item"><span class="legend-icon r-icon">R</span> Reforzadora</span>
+                            <span class="legend-item"><span class="legend-icon b-icon">B</span> Balanceadora</span>
+                        </div>
                     </div>
-                    <div class="map-controls">
-                        <select class="custom-select-sm"><option>100%</option></select>
-                        <button class="icon-btn"><i data-lucide="maximize"></i></button>
+
+                    <!-- Right Detail Panel -->
+                    <div class="detail-panel card" id="detail-panel" style="display: none;">
+                        <div class="panel-header">
+                            <div class="axis-title" id="dp-title">
+                                <span class="axis-number" id="dp-number">1</span>
+                                <div>
+                                    <h2 id="dp-name">REGIONAL</h2>
+                                    <p>Eje del sistema</p>
+                                </div>
+                            </div>
+                            <button class="icon-btn" id="close-panel"><i data-lucide="x"></i></button>
+                        </div>
+                        
+                        <ul class="panel-tabs">
+                            <li class="active">Resumen</li>
+                        </ul>
+
+                        <div class="panel-body">
+                            <div class="grid-3">
+                                <div>
+                                    <h5>ENTRADAS</h5>
+                                    <ul class="text-list" id="dp-entradas"></ul>
+                                </div>
+                                <div>
+                                    <h5>PROCESOS</h5>
+                                    <ul class="text-list" id="dp-procesos"></ul>
+                                </div>
+                                <div>
+                                    <h5>SALIDAS</h5>
+                                    <ul class="text-list" id="dp-salidas"></ul>
+                                </div>
+                            </div>
+
+                            <div class="section-divider">
+                                <h4>Variables clave</h4>
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Variable</th>
+                                            <th>Tipo</th>
+                                            <th>Tend.</th>
+                                            <th>Impacto</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="dp-variables"></tbody>
+                                </table>
+                            </div>
+
+                            <div class="section-divider">
+                                <h4>Evidencias de Fuentes</h4>
+                                <div class="evidencias-list" id="dp-evidencias"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Right Detail Panel -->
-                <div class="detail-panel card" id="detail-panel" style="display: none;">
-                    <div class="panel-header">
-                        <div class="axis-title" id="dp-title">
-                            <span class="axis-number" id="dp-number">1</span>
-                            <div>
-                                <h2 id="dp-name">REGIONAL</h2>
-                                <p>Eje del sistema</p>
-                            </div>
+                <!-- VIEW 2: MATRIZ DE RELACIONES -->
+                <div class="view-section card" id="view-relaciones" style="display: none; padding: 2rem; width: 100%; overflow-y: auto;">
+                    <h2>Matriz de Influencias Causales</h2>
+                    <p style="color: var(--text-muted); margin-bottom: 2rem;">Exploración de lazos de retroalimentación directa y mediada en el Perú.</p>
+                    <div id="relations-list" style="display: grid; gap: 1rem;"></div>
+                </div>
+
+                <!-- VIEW 3: BANCO DE EVIDENCIAS -->
+                <div class="view-section card" id="view-evidencias" style="display: none; padding: 2rem; width: 100%; overflow-y: auto;">
+                    <h2>Banco de Evidencias Documentales</h2>
+                    <p style="color: var(--text-muted); margin-bottom: 2rem;">Toda la información analizada de la carpeta "fuentes" y los reportes.</p>
+                    <div id="full-evidences-list" style="display: flex; flex-direction: column; gap: 1rem;"></div>
+                </div>
+
+                <!-- VIEW 4: COMPARADOR -->
+                <div class="view-section card" id="view-comparador" style="display: none; padding: 2rem; width: 100%; overflow-y: auto;">
+                    <h2>Comparador Estructural</h2>
+                    <div style="display: flex; gap: 2rem; margin-top: 2rem; height: 100%;">
+                        <div style="flex: 1; display: flex; flex-direction: column; gap: 1rem;">
+                            <select id="comp-1" class="custom-select"></select>
+                            <div id="comp-1-res" style="background: var(--bg-main); padding: 1.5rem; border-radius: 8px; flex: 1;">Selecciona un eje.</div>
                         </div>
-                        <button class="icon-btn" id="close-panel"><i data-lucide="x"></i></button>
+                        <div style="flex: 1; display: flex; flex-direction: column; gap: 1rem;">
+                            <select id="comp-2" class="custom-select"></select>
+                            <div id="comp-2-res" style="background: var(--bg-main); padding: 1.5rem; border-radius: 8px; flex: 1;">Selecciona un eje.</div>
+                        </div>
                     </div>
+                </div>
+
+                <!-- VIEW 5: SIMULACION -->
+                <div class="view-section card" id="view-simulacion" style="display: none; padding: 2rem; width: 100%; overflow-y: auto; text-align: center;">
+                    <h2>Simulador de Dinámicas Sistémicas</h2>
+                    <p style="color: var(--text-muted); margin-bottom: 2rem;">Observe cómo la presión interactúa y avanza en las 4 fases socio-técnicas.</p>
                     
-                    <ul class="panel-tabs">
-                        <li class="active">Resumen</li>
-                        <li>Variables</li>
-                        <li>Relaciones</li>
-                        <li>Indicadores</li>
-                    </ul>
-
-                    <div class="panel-body">
-                        <div class="grid-3">
-                            <div>
-                                <h5>ENTRADAS</h5>
-                                <ul class="text-list" id="dp-entradas"></ul>
-                            </div>
-                            <div>
-                                <h5>PROCESOS</h5>
-                                <ul class="text-list" id="dp-procesos"></ul>
-                            </div>
-                            <div>
-                                <h5>SALIDAS</h5>
-                                <ul class="text-list" id="dp-salidas"></ul>
-                            </div>
-                        </div>
-
-                        <div class="section-divider">
-                            <h4>Variables clave</h4>
-                            <table class="data-table">
-                                <thead>
-                                    <tr>
-                                        <th>Variable</th>
-                                        <th>Tipo</th>
-                                        <th>Tendencia</th>
-                                        <th>Impacto</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="dp-variables"></tbody>
-                            </table>
-                        </div>
-
-                        <div class="section-divider">
-                            <div class="flex-between">
-                                <h4>Evidencias relacionadas</h4>
-                                <a href="#" class="link">Ver todas</a>
-                            </div>
-                            <div class="evidencias-list" id="dp-evidencias"></div>
-                        </div>
-
-                        <div class="section-divider flex-between mt-auto">
-                            <h4>Notas <span class="badge-count">(0)</span></h4>
-                            <button class="btn-primary-sm"><i data-lucide="plus" class="icon-sm"></i> Agregar nota</button>
-                        </div>
+                    <button class="btn-primary" id="btn-run-sim" style="background: var(--primary); color: white; border: none; padding: 1rem 2rem; border-radius: 8px; font-size: 1.2rem; cursor: pointer; margin-bottom: 2rem;">
+                        <i data-lucide="play"></i> Iniciar Simulación
+                    </button>
+                    
+                    <div id="sim-output-console" style="background: var(--bg-dark); color: #0f0; font-family: monospace; padding: 2rem; border-radius: 8px; text-align: left; min-height: 200px; max-height: 300px; overflow-y: auto; box-shadow: inset 0 0 10px rgba(0,0,0,0.5);">
+                        > Sistema listo esperando inicialización de ciclo...
                     </div>
                 </div>
 
