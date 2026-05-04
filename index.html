@@ -100,6 +100,7 @@
                     <li data-target="view-evidencias"><i data-lucide="book-open"></i> Banco Evidencias</li>
                     <li data-target="view-comparador"><i data-lucide="columns"></i> Comparador Ejes</li>
                     <li data-target="view-simulacion"><i data-lucide="activity"></i> Simulación</li>
+                    <li data-target="view-glosario"><i data-lucide="book"></i> Glosario</li>
                 </ul>
             </div>
 
@@ -114,6 +115,10 @@
                         <div class="map-legend">
                             <span class="legend-item"><span class="legend-icon r-icon">R</span> Reforzadora</span>
                             <span class="legend-item"><span class="legend-icon b-icon">B</span> Balanceadora</span>
+                            <div style="width: 100%; border-top: 1px solid var(--border-light); margin: 0.5rem 0;"></div>
+                            <div style="font-size: 0.75rem; color: var(--text-muted); line-height: 1.4;">
+                                <strong>Análisis Funcional:</strong> Los 5 ejes son subsistemas abiertos. Ninguno opera de forma aislada. La tensión entre lo global (nodo azul) y la identidad (nodo verde) se regula o desborda dependiendo del entorno regional (nodo turquesa).
+                            </div>
                         </div>
                     </div>
 
@@ -203,17 +208,44 @@
                 </div>
 
                 <!-- VIEW 5: SIMULACION -->
-                <div class="view-section card" id="view-simulacion" style="display: none; padding: 2rem; width: 100%; overflow-y: auto; text-align: center;">
-                    <h2>Simulador de Dinámicas Sistémicas</h2>
-                    <p style="color: var(--text-muted); margin-bottom: 2rem;">Observe cómo la presión interactúa y avanza en las 4 fases socio-técnicas.</p>
+                <div class="view-section card" id="view-simulacion" style="display: none; padding: 2rem; width: 100%; overflow-y: auto;">
+                    <h2 style="text-align: center;">Simulador de Dinámicas Sistémicas</h2>
+                    <p style="color: var(--text-muted); margin-bottom: 2rem; text-align: center;">Modifique las presiones iniciales y observe cómo interactúan en las 4 fases socio-técnicas.</p>
                     
-                    <button class="btn-primary" id="btn-run-sim" style="background: var(--primary); color: white; border: none; padding: 1rem 2rem; border-radius: 8px; font-size: 1.2rem; cursor: pointer; margin-bottom: 2rem;">
-                        <i data-lucide="play"></i> Iniciar Simulación
-                    </button>
-                    
-                    <div id="sim-output-console" style="background: var(--bg-dark); color: #0f0; font-family: monospace; padding: 2rem; border-radius: 8px; text-align: left; min-height: 200px; max-height: 300px; overflow-y: auto; box-shadow: inset 0 0 10px rgba(0,0,0,0.5);">
-                        > Sistema listo esperando inicialización de ciclo...
+                    <div style="display: flex; gap: 2rem; margin-bottom: 2rem; flex-wrap: wrap;">
+                        <div style="flex: 1; min-width: 250px; background: var(--bg-main); padding: 1.5rem; border-radius: 8px;">
+                            <h4 style="margin-bottom: 1rem; color: var(--primary);">Parámetros de Entrada</h4>
+                            <label style="display: block; font-size: 0.85rem; margin-bottom: 0.5rem;">Presión Migratoria y Desborde Social (Ejes 1 y 3)</label>
+                            <input type="range" id="sim-input-mig" min="1" max="10" value="7" style="width: 100%; margin-bottom: 1.5rem;">
+                            
+                            <label style="display: block; font-size: 0.85rem; margin-bottom: 0.5rem;">Penetración de Mercados / UPF (Ejes 2 y 4)</label>
+                            <input type="range" id="sim-input-upf" min="1" max="10" value="8" style="width: 100%; margin-bottom: 1.5rem;">
+
+                            <button class="btn-primary w-full" id="btn-run-sim" style="background: var(--primary); color: white; border: none; padding: 0.75rem; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                                <i data-lucide="play"></i> Ejecutar / Resimular
+                            </button>
+                        </div>
+                        
+                        <div style="flex: 2; min-width: 300px;">
+                            <h4 style="margin-bottom: 1rem;">La Lógica del Bucle (Loop)</h4>
+                            <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">
+                                Las cuatro fases del ciclo (Expansión ➔ Saturación ➔ Crisis ➔ Reconfiguración) no son un proceso lineal, sino un <strong>bucle de retroalimentación infinita</strong>. 
+                                Por ejemplo, cuando la <em>Migración</em> (Expansión) sobrepasa la capacidad urbana, los servicios colapsan (Saturación), obligando a las redes informales a crear sus propios sistemas de subsistencia (Reconfiguración / Matos Mar). 
+                                Esta reconfiguración establece una "nueva normalidad" (nuevo piso de la Expansión), que luego será presionada nuevamente por la entrada de productos como los UPF globales.
+                            </p>
+                        </div>
                     </div>
+                    
+                    <div id="sim-output-console" style="background: var(--bg-dark); color: #0f0; font-family: monospace; padding: 1.5rem; border-radius: 8px; min-height: 200px; max-height: 300px; overflow-y: auto; box-shadow: inset 0 0 10px rgba(0,0,0,0.5);">
+                        > Sistema listo esperando inicialización de ciclo con parámetros actuales...
+                    </div>
+                </div>
+
+                <!-- VIEW 6: GLOSARIO -->
+                <div class="view-section card" id="view-glosario" style="display: none; padding: 2rem; width: 100%; overflow-y: auto;">
+                    <h2>Glosario de Términos Sociológicos y Sistémicos</h2>
+                    <p style="color: var(--text-muted); margin-bottom: 2rem;">Definiciones extraídas de la literatura base del sistema socio-técnico.</p>
+                    <div id="glossary-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem;"></div>
                 </div>
 
             </div>

@@ -163,6 +163,15 @@ const SystemCore = {
         });
     },
 
+    glossary: [
+        { term: 'Desborde Popular', author: 'José Matos Mar', desc: 'Fenómeno migratorio del campo a la ciudad que rebasó la capacidad del Estado formal, obligando a las masas a construir una institucionalidad informal paralela para sobrevivir.' },
+        { term: 'Colonialidad del Poder', author: 'Aníbal Quijano', desc: 'Estructura de dominación global que clasifica a la población mundial alrededor de la idea de "raza", operando transversalmente en el Eje Identidad y Global.' },
+        { term: 'Transición Alimentaria', author: 'Evidencia ENDES', desc: 'Paso del consumo de dietas tradicionales (agrobiodiversidad) hacia dietas occidentales ricas en productos ultraprocesados (UPF), generando la "Doble carga nutricional".' },
+        { term: 'Lazo Reforzador (R)', author: 'Dinámica de Sistemas', desc: 'Bucle de retroalimentación positiva que amplifica el cambio o el crecimiento en una dirección (círculo vicioso o virtuoso).' },
+        { term: 'Lazo Balanceador (B)', author: 'Dinámica de Sistemas', desc: 'Bucle de retroalimentación negativa que busca la estabilidad, el control o la resistencia al cambio, limitando la acción de los lazos reforzadores.' },
+        { term: 'Hibridación', author: 'García Canclini', desc: 'Procesos socioculturales en los que estructuras o prácticas discretas, que existían de forma separada, se combinan para generar nuevas estructuras (Eje Identidad).' }
+    ],
+
     getEvidenceForAxis: function(axisId) {
         return this.state.evidences.filter(e => e.axes.includes(axisId));
     }

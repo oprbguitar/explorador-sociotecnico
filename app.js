@@ -112,6 +112,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 populateEvidencias();
             } else if (targetId === 'view-comparador') {
                 populateComparador();
+            } else if (targetId === 'view-glosario') {
+                populateGlosario();
             }
         });
     });
@@ -392,6 +394,25 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    function populateGlosario() {
+        const container = document.getElementById('glossary-list');
+        container.innerHTML = '';
+        SystemCore.glossary.forEach(g => {
+            const div = document.createElement('div');
+            div.style.padding = '1.5rem';
+            div.style.background = 'var(--bg-main)';
+            div.style.borderRadius = '8px';
+            div.style.border = '1px solid var(--border-light)';
+            
+            div.innerHTML = `
+                <h3 style="color: var(--primary); margin-bottom: 0.5rem;">${g.term}</h3>
+                <p style="font-size: 0.75rem; font-weight: bold; color: var(--text-muted); margin-bottom: 1rem; text-transform: uppercase;">Autor/Fuente: ${g.author}</p>
+                <p style="font-size: 0.85rem; line-height: 1.5;">${g.desc}</p>
+            `;
+            container.appendChild(div);
+        });
+    }
+
     // Simulador Logic
     const simBtn = document.getElementById('btn-run-sim');
     const simOutput = document.getElementById('sim-output-console');
@@ -399,7 +420,15 @@ document.addEventListener('DOMContentLoaded', () => {
     if (simBtn) {
         simBtn.addEventListener('click', () => {
             simBtn.disabled = true;
-            simOutput.innerHTML = '> Iniciando motor de simulación socio-técnica...<br>';
+            
+            // Get user modified inputs
+            const migPressure = parseInt(document.getElementById('sim-input-mig').value);
+            const upfPressure = parseInt(document.getElementById('sim-input-upf').value);
+            
+            simOutput.innerHTML = `> Iniciando simulación socio-técnica (V2.0)...<br>`;
+            simOutput.innerHTML += `> SET: Presión Migratoria = ${migPressure}/10<br>`;
+            simOutput.innerHTML += `> SET: Penetración Mercados = ${upfPressure}/10<br>`;
+            simOutput.innerHTML += `> Inicializando Bucle (Expansión ➔ Reconfiguración)...<br>`;
             
             const stages = SystemCore.cycleStages;
             let current = 0;
@@ -414,11 +443,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 simOutput.innerHTML += `<br><strong style="color: #fff;">[FASE ${stage.id}: ${stage.name}]</strong><br>`;
                 simOutput.innerHTML += `> ${stage.desc}<br>`;
                 
-                if (stage.id === 2) {
-                    simOutput.innerHTML += `<span style="color: #ffaa00;">> ALERTA: Presión en lazo reforzador (Migración → Desborde) detectada.</span><br>`;
+                if (stage.id === 1 && migPressure > 5) {
+                    simOutput.innerHTML += `<span style="color: #ffaa00;">> NOTA: Alta migración detectada (Nivel ${migPressure}). Entorno regional en rápido cambio.</span><br>`;
                 }
-                if (stage.id === 3) {
-                    simOutput.innerHTML += `<span style="color: #ff5555;">> CRISIS: Tensión de Identidad vs Globalización ha superado el umbral.</span><br>`;
+                
+                if (stage.id === 2 && migPressure > 8) {
+                    simOutput.innerHTML += `<span style="color: #ff5555;">> ALERTA CRÍTICA: Desborde popular severo. Servicios urbanos no pueden asimilar el flujo.</span><br>`;
+                } else if (stage.id === 2) {
+                    simOutput.innerHTML += `<span style="color: #ffaa00;">> ALERTA: Servicios en saturación moderada.</span><br>`;
+                }
+                
+                if (stage.id === 3 && upfPressure > 6) {
+                    simOutput.innerHTML += `<span style="color: #ff5555;">> CRISIS: Desnutrición en áreas rurales coexiste con explosión de obesidad (Doble Carga Nutricional impulsada por UPF Nivel ${upfPressure}).</span><br>`;
+                }
+                
+                if (stage.id === 4) {
+                    simOutput.innerHTML += `<span style="color: #00ff00;">> RECONFIGURACIÓN: El Estado cede espacio. Las redes informales y estrategias de supervivencia de Matos Mar estabilizan el sistema de manera precaria. Identidades hibridadas (Canclini) surgen.</span><br>`;
                 }
                 
                 simOutput.scrollTop = simOutput.scrollHeight;
@@ -427,11 +467,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (current >= stages.length) {
                     clearInterval(interval);
                     setTimeout(() => {
-                        simOutput.innerHTML += `<br><strong style="color: #00ff00;">> CICLO COMPLETADO. Sistema en nuevo estado de equilibrio.</strong><br>`;
+                        simOutput.innerHTML += `<br><strong style="color: #00ffff;">> LOOP REINICIADO. Las salidas de la fase de Reconfiguración se convierten en las nuevas entradas de la fase de Expansión.</strong><br>`;
                         simBtn.disabled = false;
                         document.querySelectorAll('.cycle-card').forEach(c => c.style.opacity = '1');
                         simOutput.scrollTop = simOutput.scrollHeight;
-                    }, 1000);
+                    }, 1500);
                 }
             }, 2000);
         });
