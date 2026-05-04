@@ -50,6 +50,16 @@ body {
     height: 100vh;
 }
 
+/* Hamburger Menu for Mobile */
+.mobile-menu-btn {
+    display: none;
+    background: transparent;
+    border: none;
+    color: var(--text-main);
+    cursor: pointer;
+    padding: 0.5rem;
+}
+
 /* Icon Sidebar (Dark Leftmost) */
 #icon-sidebar {
     width: 64px;
@@ -59,6 +69,7 @@ body {
     align-items: center;
     padding: 1rem 0;
     z-index: 50;
+    flex-shrink: 0;
 }
 
 .logo-box {
@@ -121,6 +132,8 @@ body {
     flex-direction: column;
     padding: 1.5rem;
     overflow-y: auto;
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
 }
 
 .sidebar-header {
@@ -220,6 +233,7 @@ body {
     flex-direction: column;
     background-color: var(--bg-main);
     overflow: hidden;
+    position: relative;
 }
 
 /* Top Header */
@@ -242,9 +256,12 @@ body {
 .header-title h1 {
     font-size: 1.1rem;
     font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-.badge {
+.badge, .save-status {
     background: var(--bg-main);
     border: 1px solid var(--border-light);
     padding: 0.1rem 0.5rem;
@@ -254,8 +271,8 @@ body {
 }
 
 .save-status {
-    font-size: 0.75rem;
-    color: var(--text-muted);
+    border: none;
+    background: transparent;
 }
 
 .header-actions {
@@ -306,6 +323,8 @@ body {
     padding: 0 1.5rem;
     background-color: var(--bg-panel);
     border-bottom: 1px solid var(--border-light);
+    overflow-x: auto;
+    white-space: nowrap;
 }
 
 .tabs {
@@ -336,6 +355,7 @@ body {
     gap: 0.5rem;
     font-size: 0.85rem;
     color: var(--text-muted);
+    padding-left: 1rem;
 }
 
 .custom-select-sm {
@@ -344,6 +364,7 @@ body {
     border-radius: 4px;
     font-size: 0.85rem;
     background: var(--bg-panel);
+    color: var(--text-main);
 }
 
 /* Content Area */
@@ -380,6 +401,7 @@ body {
     bottom: 1.5rem;
     left: 1.5rem;
     display: flex;
+    flex-wrap: wrap;
     gap: 1.5rem;
     background: var(--bg-panel);
     padding: 0.5rem 1rem;
@@ -430,6 +452,8 @@ body {
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
 }
 
 .panel-header {
@@ -456,6 +480,7 @@ body {
     align-items: center;
     justify-content: center;
     font-weight: bold;
+    flex-shrink: 0;
 }
 
 .axis-title h2 {
@@ -622,10 +647,12 @@ body {
     display: flex;
     gap: 1.5rem;
     flex: 1;
+    overflow-x: auto;
 }
 
 .cycle-card {
     flex: 1;
+    min-width: 200px;
     display: flex;
     gap: 1rem;
     align-items: flex-start;
@@ -661,3 +688,76 @@ body {
 .stage-2 .cycle-number { background-color: #6366f1; }
 .stage-3 .cycle-number { background-color: #ef4444; }
 .stage-4 .cycle-number { background-color: #22c55e; }
+
+/* Mobile Overlay for Sidebar */
+.mobile-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.5);
+    z-index: 45;
+}
+.mobile-overlay.active { display: block; }
+
+/* Responsive Media Queries */
+@media (max-width: 1200px) {
+    .content-area {
+        flex-direction: column;
+        overflow-y: auto;
+    }
+    .map-container {
+        min-height: 500px;
+        flex: none;
+    }
+    .detail-panel {
+        width: 100%;
+        flex: none;
+        overflow-y: visible;
+    }
+}
+
+@media (max-width: 992px) {
+    .grid-3 {
+        grid-template-columns: 1fr;
+    }
+    .cycle-area {
+        height: auto;
+    }
+    .cycle-stages {
+        flex-direction: column;
+    }
+    .cycle-card {
+        margin-bottom: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    #icon-sidebar {
+        display: none; /* Hide on mobile, you can use a hamburger */
+    }
+    #filters-sidebar {
+        position: fixed;
+        left: -240px;
+        height: 100vh;
+        z-index: 50;
+    }
+    #filters-sidebar.active {
+        left: 0;
+    }
+    .mobile-menu-btn {
+        display: block;
+    }
+    .header-title h1 {
+        font-size: 0.9rem;
+    }
+    .badge, .save-status {
+        display: none;
+    }
+    .header-actions .btn-text {
+        display: none;
+    }
+    .map-legend {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}

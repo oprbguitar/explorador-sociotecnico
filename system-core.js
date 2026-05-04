@@ -110,28 +110,48 @@ const SystemCore = {
 
     initSourcesData: function() {
         this.addEvidence({
-            source: 'deep-research-report (1).md',
-            type: 'Síntesis',
+            source: 'deep-research-report (1).md (Sec: Regional Heterogeneity)',
+            type: 'Síntesis Analítica',
             status: '[VALIDADO]',
-            axes: ['eje_regional', 'eje_social', 'eje_identidad'],
-            content: 'INEI reporta pobreza monetaria diferenciada (30.9% Sierra, 30.0% Selva, 25.2% Costa). La informalidad laboral es del 70.9%.',
-            tensions: ['Territorio vs Centralismo']
+            axes: ['eje_regional'],
+            content: 'El INEI proyectó 26 ciudades con más de 100,000 habitantes en 2024. Lima Metropolitana alcanzó 10.29 millones (30.2% de la población nacional). La pobreza monetaria sigue siendo fuertemente territorial: 30.9% en la Sierra, 30.0% en la Selva y 25.2% en la Costa. Además, la población pobre tiene mayor porcentaje de hablantes de lengua nativa (19.0% vs 15.0%).',
+            tensions: ['Desigualdad territorial histórica', 'Centralismo demográfico']
         });
+        
         this.addEvidence({
-            source: 'deep-research-report (2).md',
-            type: 'Síntesis',
+            source: 'deep-research-report (1).md (Sec: Migration & Informality)',
+            type: 'Síntesis Teórica-Empírica',
             status: '[VALIDADO]',
-            axes: ['eje_nutricion', 'eje_regional'],
-            content: 'ENDES 2024 muestra anemia infantil de 43.1% en Sierra y 44.1% en Selva frente a 27.0% en Costa. Transición alimentaria y doble carga.',
-            tensions: ['UPF vs Tradición']
+            axes: ['eje_social', 'eje_regional'],
+            content: 'La informalidad laboral alcanzó el 70.7% (Abril 2024 - Marzo 2025). Ciudades como Juliaca, Pucallpa y Ayacucho lideran estas tasas, mientras que Lima mantiene un 56.9%. Usando el marco de José Matos Mar (Desborde popular), la informalidad no es un residuo, sino la forma en que el sistema opera en realidad.',
+            tensions: ['Estado vs. Redes informales', 'Supervivencia urbana']
         });
+        
+        this.addEvidence({
+            source: 'deep-research-report (2).md (Sec: Food Transition)',
+            type: 'Dato Epidemiológico',
+            status: '[VALIDADO]',
+            axes: ['eje_nutricion', 'eje_regional', 'eje_global'],
+            content: 'Perú enfrenta una "doble carga nutricional". Mientras la anemia infantil (6-35 meses) persiste altísima en la Sierra (43.1%) y Selva (44.1%) comparada con la Costa (27.0%), el consumo de productos ultraprocesados (UPF) ya representa el 27% de la ingesta energética en niños y es consumido por el 86%.',
+            tensions: ['Desnutrición vs. Obesidad', 'Patrones tradicionales vs. UPF']
+        });
+
         this.addEvidence({
             source: 'Ingeniería Social_ Ejes y Tensiones.pdf',
-            type: 'Teórico',
+            type: 'Marco Conceptual',
             status: '[SÍNTESIS]',
-            axes: ['eje_social', 'eje_identidad'],
-            content: 'La obra de Matos Mar "Desborde popular y crisis del Estado" y Quijano sobre colonialidad del poder explican la informalidad no como margen, sino como sistema operativo.',
-            tensions: []
+            axes: ['eje_identidad', 'eje_global'],
+            content: 'La hibridación (García Canclini) y la transculturación (Fernando Ortiz) explican cómo las formas globales (comida rápida, redes digitales) son apropiadas localmente. Sin embargo, Aníbal Quijano advierte que esta mezcla ocurre dentro de una matriz colonial de poder desigual.',
+            tensions: ['Hibridación vs. Colonialidad del poder']
+        });
+        
+        this.addEvidence({
+            source: 'Evaluación Sistémica de Fuentes',
+            type: 'Hipótesis del Sistema',
+            status: '[ABIERTO]',
+            axes: ['eje_identidad', 'eje_nutricion'],
+            content: 'Se detecta un vacío de investigación en cómo la subjetividad individual (Eje 5) se reconfigura específicamente bajo el consumo de plataformas digitales y su relación cruzada con el consumo de ultraprocesados en entornos rurales.',
+            tensions: ['Identidad algorítmica vs. Identidad territorial']
         });
     },
 
