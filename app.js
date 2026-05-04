@@ -453,6 +453,54 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Left Dark Sidebar Icons Logic
+    const iconNavItems = document.querySelectorAll('.icon-nav li');
+    iconNavItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+            iconNavItems.forEach(i => i.classList.remove('active'));
+            const target = e.currentTarget;
+            target.classList.add('active');
+            
+            const text = target.querySelector('span').textContent;
+            
+            // Map side icons to top tabs for functionality
+            if(text === 'Mapa' || text === 'Explorar') document.querySelector('[data-target="view-sistema"]').click();
+            else if(text === 'Tablero') document.querySelector('[data-target="view-comparador"]').click();
+            else if(text === 'Indicadores') document.querySelector('[data-target="view-relaciones"]').click();
+            else if(text === 'Escenarios') document.querySelector('[data-target="view-simulacion"]').click();
+            else if(text === 'Fuentes') document.querySelector('[data-target="view-evidencias"]').click();
+            else if(text === 'Glosario') alert('Glosario de términos sociológicos (Matos Mar, Quijano, etc) estará disponible en v2.0.');
+        });
+    });
+
+    // Top Right Header Buttons Logic
+    document.querySelectorAll('.header-actions button').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const text = e.currentTarget.textContent.trim();
+            if(text === 'Compartir') {
+                navigator.clipboard.writeText(window.location.href);
+                alert('¡Enlace del explorador copiado al portapapeles!');
+            } else if (text === 'Exportar') {
+                alert('Exportando modelo del sistema a JSON...');
+            }
+        });
+    });
+
+    const bellBtn = document.querySelector('.header-actions .icon-btn');
+    if(bellBtn) {
+        bellBtn.addEventListener('click', () => {
+            alert('Notificaciones: Tienes 2 tensiones del sistema en estado crítico (Eje Regional y Nutrición).');
+        });
+    }
+
+    const avatarBtn = document.querySelector('.header-actions .avatar');
+    if(avatarBtn) {
+        avatarBtn.style.cursor = 'pointer';
+        avatarBtn.addEventListener('click', () => {
+            alert('Perfil de Investigador Activo.');
+        });
+    }
+
     // Start
     initGraph();
     setTimeout(() => {
