@@ -112,6 +112,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 populateIndicadores();
             } else if (targetId === 'view-evidencias') {
                 populateEvidencias();
+            } else if (targetId === 'view-fuentes') {
+                populateFuentes();
             } else if (targetId === 'view-comparador') {
                 populateComparador();
             } else if (targetId === 'view-glosario') {
@@ -170,11 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
         cy.on('tap', 'node', function(evt){
             openDetailPanel(evt.target.data('id'));
         });
-        cy.on('tap', function(evt){
-            if(evt.target === cy){
-                detailPanel.style.display = 'none';
-            }
-        });
+        // Removed auto-close when clicking on background so the panel stays as identity
     }
 
     function getGraphStyle() {
@@ -449,6 +447,33 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    function populateFuentes() {
+        const container = document.getElementById('fuentes-list');
+        container.innerHTML = '';
+        SystemCore.metodologia.forEach(m => {
+            const div = document.createElement('div');
+            div.className = 'dynamic-card';
+            div.style.padding = '1.5rem';
+            div.style.background = 'var(--bg-main)';
+            div.style.borderRadius = '12px';
+            div.style.border = '1px solid var(--border-light)';
+            
+            div.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                    <i data-lucide="book-check" class="icon-sm" style="color: var(--primary);"></i>
+                    <h3 style="color: var(--primary); font-size: 1.1rem; margin: 0;">${m.fuente}</h3>
+                </div>
+                <p style="font-size: 0.75rem; font-weight: bold; color: var(--text-muted); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 1px;">Metodología: ${m.tipo}</p>
+                <div style="background: var(--bg-panel); padding: 1rem; border-radius: 8px; border-left: 3px solid var(--primary);">
+                    <strong style="display: block; margin-bottom: 0.25rem; font-size: 0.8rem; color: var(--text-main);">Aporte al Sistema:</strong>
+                    <p style="font-size: 0.85rem; line-height: 1.6; color: var(--text-muted); margin: 0;">${m.aporte}</p>
+                </div>
+            `;
+            container.appendChild(div);
+        });
+        lucide.createIcons();
+    }
+
     function populateGlosario() {
         const container = document.getElementById('glossary-list');
         container.innerHTML = '';
@@ -563,20 +588,36 @@ document.addEventListener('DOMContentLoaded', () => {
             else if(text === 'Tablero') document.querySelector('[data-target="view-comparador"]').click();
             else if(text === 'Indicadores') document.querySelector('[data-target="view-indicadores"]').click();
             else if(text === 'Escenarios') document.querySelector('[data-target="view-simulacion"]').click();
-            else if(text === 'Fuentes') document.querySelector('[data-target="view-evidencias"]').click();
+            else if(text === 'Fuentes') document.querySelector('[data-target="view-fuentes"]').click();
             else if(text === 'Glosario') document.querySelector('[data-target="view-glosario"]').click();
         });
     });
 
     // Top Right Header Buttons Logic
     document.querySelectorAll('.header-actions button').forEach(btn => {
-        btn.addEventListener('click', (e) => {
+        btn.addEventListener('click', async (e) => {
             const text = e.currentTarget.textContent.trim();
             if(text === 'Compartir') {
-                navigator.clipboard.writeText(window.location.href);
-                alert('¡Enlace del explorador copiado al portapapeles!');
+                if (navigator.share) {
+                    try {
+                        await navigator.share({
+                            title: 'Explorador de Sistemas - Marco Socio-Técnico',
+                            text: 'Mira este explorador interactivo del marco socio-técnico de cinco ejes del Perú.',
+                            url: window.location.href,
+                        });
+                    } catch (err) {
+                        console.log('Cancelado o error al compartir.', err);
+                    }
+                } else {
+                    navigator.clipboard.writeText(window.location.href);
+                    alert('¡Enlace del explorador copiado al portapapeles!');
+                }
             } else if (text === 'Exportar') {
-                alert('Exportando modelo del sistema a JSON...');
+                const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(SystemCore, null, 2));
+                const dlAnchorElem = document.createElement('a');
+                dlAnchorElem.setAttribute("href", dataStr);
+                dlAnchorElem.setAttribute("download", "sistema-sociotecnico-peru.json");
+                dlAnchorElem.click();
             }
         });
     });

@@ -163,6 +163,14 @@ const SystemCore = {
         });
     },
 
+    metodologia: [
+        { fuente: 'Tesis INEI & Documentos Demográficos', tipo: 'Empírica Cuantitativa', aporte: 'Validación del Eje Regional. Permitió estructurar las variables de Estado y Flujo poblacional, demostrando matemáticamente cómo la concentración en 26 ciudades fuerza el desborde de servicios.' },
+        { fuente: 'José Matos Mar (Desborde Popular)', tipo: 'Teórica Histórica', aporte: 'Proveyó el mecanismo causal (Lazo Reforzador) entre la migración andina y la creación de redes informales urbanas (Eje Accionar Social).' },
+        { fuente: 'Aníbal Quijano (Colonialidad del Poder)', tipo: 'Teórica Decolonial', aporte: 'Configuró el Eje Identidad. Explicó por qué la asimilación global no es horizontal, sino que opera bajo sistemas de jerarquización racializados que tensionan el Yo mestizo.' },
+        { fuente: 'Datos ENDES (Salud Nutricional)', tipo: 'Empírica Epidemiológica', aporte: 'Fundamentó el Eje de Nutrición Globalizada al demostrar cuantitativamente la "Doble Carga Nutricional": coexistencia de desnutrición crónica (sierra/selva) y obesidad explosiva por UPFs.' },
+        { fuente: 'García Canclini (Culturas Híbridas)', tipo: 'Teórica Cultural', aporte: 'Determinó el concepto de "Reconfiguración". Permitió entender que la crisis de identidad en Perú no termina en colapso, sino en "hibridación" (mezcla de la tradición con la modernidad tecnológica).' }
+    ],
+
     glossary: [
         { term: 'Desborde Popular', author: 'José Matos Mar', desc: 'Fenómeno migratorio del campo a la ciudad que rebasó la capacidad del Estado formal, obligando a las masas a construir una institucionalidad informal paralela para sobrevivir.' },
         { term: 'Colonialidad del Poder', author: 'Aníbal Quijano', desc: 'Estructura de dominación global que clasifica a la población mundial alrededor de la idea de "raza", operando transversalmente en el Eje Identidad y Global.' },

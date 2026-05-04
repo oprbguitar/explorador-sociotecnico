@@ -23,10 +23,11 @@ La aplicación cuenta con varias vistas de análisis a las que puedes acceder de
 
 1. **Mapa Causal Central (Sistema):** Grafo construido con *Cytoscape.js*. Los nodos representan ejes; las flechas, influencias "R" o "B". Haz clic en cualquier nodo para abrir el **Panel de Detalles** con data cruda.
 2. **Tablero de Indicadores:** Una vista completa donde se listan todas las variables clave (Stocks y Flujos) de cada eje, detallando si su tendencia va al alza (↑) o a la baja (↓) y su nivel de impacto.
-3. **Comparador de Ejes:** Permite cruzar dos ejes distintos para ver frente a frente sus procesos críticos, salidas (outputs) y a quiénes afectan directa e indirectamente.
-4. **Banco de Evidencias:** Un repositorio digital que lista todas las síntesis analíticas extraídas de las fuentes base (INEI, ENDES, teorías), evidenciando las **Tensiones** detectadas.
-5. **Simulador de Dinámicas:** Un panel con deslizadores (sliders) donde puedes ingresar niveles de "Presión Migratoria" y "Penetración UPF". Al ejecutarlo, una consola te narrará iterativamente cómo estas presiones empujan al sistema a través de 4 fases cíclicas hasta formar un "Bucle".
-6. **Glosario:** Un listado con la definición de los términos teóricos fundacionales (ej. *Desborde Popular* de Matos Mar, *Colonialidad* de Quijano).
+3. **Análisis de Fuentes (Metodología):** Un resumen sintético que explica cómo documentos fundacionales (ENDES, INEI, Canclini, Quijano, Matos Mar) validan matemáticamente o teóricamente el comportamiento de los ejes.
+4. **Comparador de Ejes:** Permite cruzar dos ejes distintos para ver frente a frente sus procesos críticos, salidas (outputs) y a quiénes afectan directa e indirectamente.
+5. **Banco de Evidencias:** Un repositorio digital que lista todas las síntesis analíticas extraídas de las fuentes base (INEI, ENDES, teorías), evidenciando las **Tensiones** detectadas.
+6. **Simulador de Dinámicas:** Un panel con deslizadores (sliders) donde puedes ingresar niveles de "Presión Migratoria" y "Penetración UPF". Al ejecutarlo, una consola te narrará iterativamente cómo estas presiones empujan al sistema a través de 4 fases cíclicas hasta formar un "Bucle".
+7. **Glosario:** Un listado con la definición de los términos teóricos fundacionales (ej. *Desborde Popular* de Matos Mar, *Colonialidad* de Quijano).
 
 ---
 
