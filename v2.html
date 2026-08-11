@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es" class="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Explorador Socio-Técnico del Perú — versión 2: sistema, causalidad, historia, cultura, nutrición y evidencia.">
+  <title>Explorador Socio-Técnico del Perú — V2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="v2.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.26.0/cytoscape.min.js"></script>
+</head>
+<body>
+  <div class="shell">
+    <aside class="rail" aria-label="Navegación principal">
+      <a class="rail-logo" href="index.html" title="Volver a V1"><i data-lucide="compass"></i></a>
+      <button class="rail-btn active" data-lens="system" title="Sistema"><i data-lucide="orbit"></i></button>
+      <button class="rail-btn" data-lens="causal" title="Causal"><i data-lucide="git-branch"></i></button>
+      <button class="rail-btn" data-lens="history" title="Historia"><i data-lucide="history"></i></button>
+      <button class="rail-btn" data-lens="nutrition" title="Nutrición"><i data-lucide="utensils"></i></button>
+      <button class="rail-btn" data-lens="evidence" title="Evidencia"><i data-lucide="library"></i></button>
+      <button class="rail-btn" data-lens="simulation" title="Simulación"><i data-lucide="activity"></i></button>
+      <span class="rail-spacer"></span>
+      <button id="themeToggle" class="rail-btn" title="Cambiar tema"><i data-lucide="moon"></i></button>
+    </aside>
+
+    <aside class="control-panel">
+      <div class="brand-block">
+        <span class="eyebrow">LABORATORIO SOCIOTÉCNICO</span>
+        <h1>Perú</h1>
+        <p>Cinco ejes, múltiples lentes, una misma base de evidencia.</p>
+      </div>
+
+      <label class="search-box">
+        <i data-lucide="search"></i>
+        <input id="globalSearch" type="search" placeholder="Buscar variable, eje o fuente">
+      </label>
+
+      <section class="control-section">
+        <div class="section-label">Lente activa</div>
+        <div id="lensSummary" class="lens-summary">Sistema</div>
+      </section>
+
+      <section class="control-section">
+        <div class="section-label">Ejes</div>
+        <div id="axisFilters" class="axis-filters"></div>
+      </section>
+
+      <section class="control-section">
+        <div class="section-label">Territorio</div>
+        <select id="territorySelect" class="select">
+          <option value="all">Perú — vista nacional</option>
+          <option value="costa">Costa</option>
+          <option value="sierra">Sierra</option>
+          <option value="selva">Selva</option>
+        </select>
+      </section>
+
+      <section class="control-section compact">
+        <div class="section-label">Método</div>
+        <p class="microcopy">Datos observados, fuentes históricas y relaciones causales se muestran por separado. La simulación experimental está identificada explícitamente.</p>
+      </section>
+
+      <button id="resetView" class="reset-btn"><i data-lucide="refresh-cw"></i> Restablecer vista</button>
+    </aside>
+
+    <main class="workspace">
+      <header class="topbar">
+        <div class="title-line">
+          <div>
+            <span class="eyebrow">MARCO SOCIO-TÉCNICO DEL PERÚ</span>
+            <h2 id="viewTitle">Sistema integrado</h2>
+          </div>
+          <div class="version-switch" aria-label="Cambiar versión">
+            <a href="index.html">Versión 1</a>
+            <span class="active">Versión 2</span>
+          </div>
+        </div>
+        <div class="status-line">
+          <span><span class="status-dot"></span> Modelo cargado</span>
+          <span id="nodeCount">0 nodos</span>
+          <span id="sourceCount">0 fuentes</span>
+          <span class="experimental">V2 experimental</span>
+        </div>
+      </header>
+
+      <nav class="lens-tabs" aria-label="Lentes analíticas">
+        <button class="lens-tab active" data-lens="system">Sistema</button>
+        <button class="lens-tab" data-lens="variables">Variables</button>
+        <button class="lens-tab" data-lens="causal">Causal</button>
+        <button class="lens-tab" data-lens="territory">Territorio</button>
+        <button class="lens-tab" data-lens="history">Historia</button>
+        <button class="lens-tab" data-lens="nutrition">Nutrición</button>
+        <button class="lens-tab" data-lens="evidence">Evidencia</button>
+        <button class="lens-tab" data-lens="simulation">Simulación</button>
+      </nav>
+
+      <section class="canvas-grid">
+        <div class="canvas-card">
+          <div class="canvas-toolbar">
+            <div>
+              <span id="canvasKicker" class="eyebrow">LENTE SISTEMA</span>
+              <strong id="canvasTitle">Estructura de cinco ejes</strong>
+            </div>
+            <div class="toolbar-actions">
+              <button id="fitGraph" class="icon-action" title="Ajustar grafo"><i data-lucide="maximize-2"></i></button>
+              <button id="centerGraph" class="icon-action" title="Centrar"><i data-lucide="focus"></i></button>
+            </div>
+          </div>
+          <div id="cyV2" class="graph"></div>
+          <div id="historyStrip" class="history-strip hidden"></div>
+          <div class="legend-row">
+            <span><i class="legend-dot axis"></i>Eje</span>
+            <span><i class="legend-dot variable"></i>Variable</span>
+            <span><i class="legend-dot source"></i>Fuente</span>
+            <span><b>+</b> misma dirección</span>
+            <span><b>−</b> dirección contraria</span>
+          </div>
+        </div>
+
+        <aside class="inspector" id="inspector">
+          <div class="inspector-empty">
+            <i data-lucide="mouse-pointer-2"></i>
+            <h3>Explora el sistema</h3>
+            <p>Selecciona un nodo para ver su función, evidencia asociada y relaciones.</p>
+          </div>
+        </aside>
+      </section>
+
+      <section id="simulationPanel" class="simulation-panel hidden">
+        <div class="simulation-head">
+          <div>
+            <span class="eyebrow">EXPERIMENTO NORMALIZADO</span>
+            <h3>Laboratorio de escenarios</h3>
+          </div>
+          <span class="warning-pill">No predictivo</span>
+        </div>
+        <p id="simulationDisclaimer" class="simulation-note"></p>
+        <div class="simulation-grid">
+          <div class="sliders">
+            <label>Migración / presión territorial <output id="migrationValue">58</output><input id="migrationSlider" type="range" min="0" max="100" value="58"></label>
+            <label>Penetración de mercados <output id="marketValue">68</output><input id="marketSlider" type="range" min="0" max="100" value="68"></label>
+            <label>Capacidad institucional <output id="capacityValue">48</output><input id="capacitySlider" type="range" min="0" max="100" value="48"></label>
+            <label>Resiliencia cultural <output id="resilienceValue">57</output><input id="resilienceSlider" type="range" min="0" max="100" value="57"></label>
+            <button id="runSimulation" class="run-btn"><i data-lucide="play"></i> Ejecutar 20 periodos</button>
+          </div>
+          <div class="sim-results">
+            <div id="simMetrics" class="metric-grid"></div>
+            <svg id="simChart" viewBox="0 0 700 240" role="img" aria-label="Evolución de índices normalizados"></svg>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="v2-data.js"></script>
+  <script src="v2.js"></script>
+</body>
+</html>
