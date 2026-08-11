@@ -23,10 +23,10 @@ desde el selector superior de cualquiera de ellas.
 
 <br>
 
-![versión](https://img.shields.io/badge/versión-3.0_«Circulación»-E63329?style=flat-square)
+![versión](https://img.shields.io/badge/versi%C3%B3n-3.0_Circulaci%C3%B3n-E63329?style=flat-square)
 ![stack](https://img.shields.io/badge/stack-100%25_cliente-2E6BE6?style=flat-square)
 ![dependencias](https://img.shields.io/badge/dependencias_externas-0-17A05C?style=flat-square)
-![licencia](https://img.shields.io/badge/código-MIT-F2C12E?style=flat-square)
+![licencia](https://img.shields.io/badge/c%C3%B3digo-MIT-F2C12E?style=flat-square)
 ![contenido](https://img.shields.io/badge/contenido-CC_BY_4.0-F0731A?style=flat-square)
 
 <br>
