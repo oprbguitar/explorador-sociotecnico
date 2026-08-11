@@ -1,0 +1,178 @@
+/* V2.1 — mejoras incrementales sobre v2.css */
+
+.canvas-card,
+.graph { overflow: hidden; }
+
+.graph { min-height: 560px; }
+
+.simulation-panel.simulation-inline {
+  margin-top: 0;
+  border-top: 0;
+  border-radius: 0;
+  padding: 16px 18px 18px;
+}
+
+.simulation-panel.simulation-inline + .canvas-grid {
+  border-top: 1px solid var(--border);
+}
+
+.scenario-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin: 11px 0 14px;
+}
+
+.scenario-chip {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--panel-soft);
+  color: var(--muted);
+  padding: 7px 10px;
+  font-size: 10px;
+  cursor: pointer;
+  transition: border-color .16s ease, background .16s ease, color .16s ease;
+}
+
+.scenario-chip:hover,
+.scenario-chip.active {
+  color: var(--text);
+  border-color: var(--border-strong);
+  background: var(--panel);
+  font-weight: 650;
+}
+
+.simulation-grid {
+  grid-template-columns: minmax(300px, 370px) minmax(0, 1fr);
+  align-items: start;
+}
+
+.sliders {
+  display: grid;
+  gap: 2px;
+}
+
+.sliders label { margin-bottom: 10px; }
+.sliders input[type="range"] { margin-top: 2px; }
+.sim-results { min-width: 0; }
+
+.simulation-diagnosis {
+  min-height: 52px;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  background: var(--panel-soft);
+  padding: 10px 12px;
+  margin-bottom: 9px;
+}
+
+.simulation-diagnosis b {
+  display: block;
+  font-size: 11px;
+  margin-bottom: 3px;
+}
+
+.simulation-diagnosis span {
+  display: block;
+  color: var(--muted);
+  font-size: 9px;
+  line-height: 1.45;
+}
+
+.metric-grid { grid-template-columns: repeat(3, minmax(105px, 1fr)); }
+
+.metric {
+  position: relative;
+  overflow: hidden;
+  background: var(--panel);
+}
+
+.metric::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--metric-color, var(--border-strong));
+}
+
+.metric b { font-variant-numeric: tabular-nums; }
+#simChart { min-height: 250px; }
+
+.relation-status {
+  margin-top: 10px;
+  border-radius: 8px;
+  padding: 7px 9px;
+  font-size: 9px;
+  line-height: 1.4;
+  border: 1px solid var(--border);
+}
+
+.relation-status.supported {
+  background: rgba(34,197,94,.07);
+  border-color: rgba(34,197,94,.22);
+}
+
+.relation-status.hypothesis {
+  background: rgba(234,179,8,.08);
+  border-color: rgba(234,179,8,.24);
+}
+
+.source-link.source-local {
+  cursor: default;
+  border-style: dashed;
+}
+
+.history-card {
+  text-align: left;
+  color: var(--text);
+  cursor: pointer;
+}
+
+button.history-card { font-family: inherit; }
+.history-card:hover { border-color: var(--border-strong); }
+
+.legend-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.legend-status::before {
+  content: "";
+  width: 13px;
+  border-top: 2px solid var(--muted);
+  display: inline-block;
+}
+
+.legend-status.hypothesis::before { border-top-style: dashed; opacity: .65; }
+
+.canvas-card::after {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 64px;
+  bottom: 42px;
+  border: 1px solid transparent;
+}
+
+@media (max-width: 1180px) {
+  .simulation-grid { grid-template-columns: 320px minmax(0, 1fr); }
+  .metric-grid { grid-template-columns: repeat(3, minmax(90px, 1fr)); }
+}
+
+@media (max-width: 1100px) {
+  .simulation-grid { grid-template-columns: 1fr; }
+  .sliders { grid-template-columns: 1fr 1fr; column-gap: 16px; }
+  .run-btn { grid-column: 1 / -1; }
+}
+
+@media (max-width: 760px) {
+  .simulation-panel.simulation-inline { padding: 13px; }
+  .sliders { grid-template-columns: 1fr; }
+  .run-btn { grid-column: auto; }
+  .metric-grid { grid-template-columns: repeat(2, minmax(100px, 1fr)); }
+  .graph { min-height: 540px; }
+}
