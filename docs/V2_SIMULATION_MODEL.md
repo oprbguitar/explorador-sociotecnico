@@ -69,17 +69,17 @@ En lugar de sumar incrementos constantes indefinidamente, cada estado se aproxim
 
 `X(t+1) = X(t) + tasa * [objetivo(t) - X(t)]`
 
-Los objetivos actuales son:
+Los objetivos actuales están **centrados en 50**: un escenario en el que todas las entradas y estados valen 50 mantiene, por construcción, un punto neutral alrededor de 50. Esto evita que el modelo interprete el cero como un estado “natural” o que los valores iniciales sugieran una medición real del Perú.
 
-- `presión_urbana* = 18 + 0.52 migración + 0.10 mercado - 0.36 capacidad`
-- `informalidad* = 14 + 0.28 presión_urbana + 0.20 migración + 0.18 captura - 0.27 capacidad - 0.16 integridad`
-- `flujos_ilícitos* = 8 + 0.22 mercado + 0.20 informalidad + 0.24 corrupción + 0.12 captura - 0.34 integridad - 0.10 capacidad`
-- `corrupción* = 10 + 0.27 captura + 0.17 informalidad + 0.19 flujos_ilícitos - 0.31 integridad - 0.12 capacidad`
-- `captura* = 12 + 0.38 corrupción + 0.13 mercado + 0.10 flujos_ilícitos - 0.28 integridad - 0.14 capacidad`
-- `confianza* = 22 + 0.28 capacidad + 0.25 integridad + 0.14 comunidad - 0.25 captura - 0.16 corrupción`
-- `estrés* = 20 + 0.24 presión_urbana + 0.17 informalidad + 0.18 (100 - confianza) + 0.12 captura - 0.24 comunidad - 0.10 capacidad`
-- `carga_nutricional* = 15 + 0.34 mercado + 0.20 estrés + 0.12 presión_urbana - 0.24 resiliencia - 0.13 capacidad`
-- `resiliencia_cultural* = 25 + 0.28 resiliencia + 0.23 comunidad + 0.14 confianza - 0.18 mercado - 0.12 estrés`
+- `presión_urbana* = 50 + 0.45(migración-50) + 0.12(mercado-50) - 0.35(capacidad-50)`
+- `informalidad* = 50 + 0.22(presión_urbana-50) + 0.18(migración-50) + 0.20(captura-50) - 0.24(capacidad-50) - 0.18(integridad-50)`
+- `flujos_ilícitos* = 50 + 0.18(mercado-50) + 0.17(informalidad-50) + 0.22(corrupción-50) + 0.14(captura-50) - 0.30(integridad-50) - 0.10(capacidad-50)`
+- `corrupción* = 50 + 0.25(captura-50) + 0.15(informalidad-50) + 0.18(flujos_ilícitos-50) - 0.28(integridad-50) - 0.12(capacidad-50)`
+- `captura* = 50 + 0.32(corrupción-50) + 0.12(mercado-50) + 0.10(flujos_ilícitos-50) - 0.27(integridad-50) - 0.13(capacidad-50)`
+- `confianza* = 50 + 0.25(capacidad-50) + 0.25(integridad-50) + 0.12(comunidad-50) - 0.24(captura-50) - 0.15(corrupción-50)`
+- `estrés* = 50 + 0.20(presión_urbana-50) + 0.15(informalidad-50) + 0.18(50-confianza) + 0.10(captura-50) - 0.20(comunidad-50) - 0.10(capacidad-50)`
+- `carga_nutricional* = 50 + 0.25(mercado-50) + 0.18(estrés-50) + 0.10(presión_urbana-50) - 0.20(resiliencia-50) - 0.12(capacidad-50)`
+- `resiliencia_cultural* = 50 + 0.25(resiliencia-50) + 0.20(comunidad-50) + 0.15(confianza-50) - 0.16(mercado-50) - 0.12(estrés-50)`
 
 Todos los objetivos y estados se limitan al rango 0–100. Las tasas de aproximación se encuentran entre aproximadamente 0.13 y 0.19 por periodo.
 
