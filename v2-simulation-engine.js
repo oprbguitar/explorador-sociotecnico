@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   document.getElementById('runSimulation')?.addEventListener('click', runCenteredSimulation);
-  document.querySelector('[data-lens="simulation"]')?.addEventListener('click', () => setTimeout(runCenteredSimulation, 0));
+  document.querySelectorAll('[data-lens="simulation"]').forEach(btn => btn.addEventListener('click', () => setTimeout(runCenteredSimulation, 0)));
   document.querySelectorAll('#scenarioPresets [data-preset]').forEach(btn => btn.addEventListener('click', () => setTimeout(runCenteredSimulation, 0)));
   runCenteredSimulation();
 });
