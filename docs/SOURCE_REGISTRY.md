@@ -17,6 +17,11 @@ Para alimentar el sistema se separan cuatro funciones: **calibración cuantitati
 | ENAPRES Cultura | MINCUL/INEI | Cultura | Acceso y consumo de bienes/servicios culturales | CSV/XLSX de Datos Abiertos |
 | Datos Abiertos MINCUL | Ministerio de Cultura | Cultura | Patrimonio, lenguas, puntos de cultura, lectura, museos | CSV/XLSX según dataset |
 | Urban population | Banco Mundial/ONU | Urbanización | Serie complementaria 1960–actualidad | API/CSV; contrastar con INEI |
+| FAOSTAT | FAO | Alimentación/nutrición | Oferta alimentaria, nutrientes y transición dietaria de largo plazo | API/CSV; contraste longitudinal |
+| GHO / NLiS Perú | OMS | Salud/nutrición | Indicadores internacionales comparables de obesidad y malnutrición | Validación externa; complementar ENDES/INS |
+| Repositorio Histórico Digital | Archivo General de la Nación | Historia/memoria | Fuentes primarias sobre Estado, territorio y sociedad | Evidencia documental contextual |
+| BNP Digital | Biblioteca Nacional del Perú | Cultura/historia | Libros, manuscritos, fotografía, audiovisuales y patrimonio | Evidencia documental y visual |
+| Patrimonio Cultural Inmaterial — Perú | UNESCO | Cultura/identidad | Continuidad y reconocimiento de prácticas culturales vivas | Cronología y evidencia institucional |
 
 ## Fuentes históricas y teóricas
 
@@ -24,6 +29,9 @@ Para alimentar el sistema se separan cuatro funciones: **calibración cuantitati
 - Aníbal Quijano: útil para hipótesis sobre modernización, poder, jerarquías e identidad.
 - Néstor García Canclini: útil para hibridación, consumo cultural y recombinación de prácticas.
 - Repositorios y publicaciones del Ministerio de Cultura/BDPI: historia, cultura, lengua y localización de pueblos indígenas u originarios.
+- Archivo General de la Nación y BNP Digital: fuentes primarias y patrimonio documental para reconstrucciones históricas.
+- UNESCO Patrimonio Cultural Inmaterial: registro institucional de prácticas culturales vivas y su reconocimiento internacional.
+- FAOSTAT y OMS: fuentes secundarias internacionales para contraste longitudinal y validación; no deben desplazar a las fuentes nacionales cuando exista medición peruana equivalente.
 
 Estas fuentes **no deben transformarse automáticamente en coeficientes numéricos**. Su función es justificar estructura causal, construir hipótesis y contextualizar resultados.
 
