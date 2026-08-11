@@ -1,12 +1,12 @@
-# Registro de fuentes — Explorador Socio-Técnico del Perú V2
+# Registro de fuentes — Explorador Socio-Técnico del Perú V2.1
 
 ## Criterio
 
-Para alimentar el sistema se separan cuatro funciones: **calibración cuantitativa**, **contexto territorial**, **evidencia cultural/histórica** y **fundamento teórico**. No todas las fuentes deben alimentar ecuaciones numéricas.
+Para alimentar el sistema se separan cinco funciones: **calibración cuantitativa**, **contexto territorial**, **evidencia cultural/histórica**, **fundamento teórico** y **estructura causal institucional**. No todas las fuentes deben alimentar ecuaciones numéricas.
 
-## Fuentes prioritarias
+## Fuentes prioritarias de datos y validación
 
-| Fuente | Institución | Dominio | Uso en V2 | Integración recomendada |
+| Fuente | Institución | Dominio | Uso en V2.1 | Integración recomendada |
 |---|---|---|---|---|
 | ENDES | INEI | Salud/nutrición | Anemia, salud materno-infantil y variables demográficas | Series descargadas y normalizadas |
 | ENAHO | INEI | Social/económico | Pobreza, empleo, informalidad, servicios | Microdatos/series procesadas |
@@ -23,17 +23,35 @@ Para alimentar el sistema se separan cuatro funciones: **calibración cuantitati
 | BNP Digital | Biblioteca Nacional del Perú | Cultura/historia | Libros, manuscritos, fotografía, audiovisuales y patrimonio | Evidencia documental y visual |
 | Patrimonio Cultural Inmaterial — Perú | UNESCO | Cultura/identidad | Continuidad y reconocimiento de prácticas culturales vivas | Cronología y evidencia institucional |
 
-## Fuentes históricas y teóricas
+## Fuentes históricas, institucionales y teóricas
 
-- José Matos Mar: útil para formular mecanismos sobre migración, urbanización, redes e informalidad.
-- Aníbal Quijano: útil para hipótesis sobre modernización, poder, jerarquías e identidad.
-- Néstor García Canclini: útil para hibridación, consumo cultural y recombinación de prácticas.
-- Repositorios y publicaciones del Ministerio de Cultura/BDPI: historia, cultura, lengua y localización de pueblos indígenas u originarios.
-- Archivo General de la Nación y BNP Digital: fuentes primarias y patrimonio documental para reconstrucciones históricas.
-- UNESCO Patrimonio Cultural Inmaterial: registro institucional de prácticas culturales vivas y su reconocimiento internacional.
-- FAOSTAT y OMS: fuentes secundarias internacionales para contraste longitudinal y validación; no deben desplazar a las fuentes nacionales cuando exista medición peruana equivalente.
+| Fuente | Autor / institución | Aporte al modelo | Función |
+|---|---|---|---|
+| Desborde popular y transformación urbana | José Matos Mar | Migración, redes, informalidad y reconfiguración urbana | Conceptual/histórica |
+| Colonialidad del poder | Aníbal Quijano | Poder, jerarquías, modernización e identidad | Conceptual |
+| Culturas híbridas | Néstor García Canclini | Hibridación, consumo cultural y recombinación | Conceptual |
+| Historia de la corrupción en el Perú | Alfonso W. Quiroz | Corrupción sistémica, ciclos históricos, patronazgo, impunidad, costos institucionales y desarrollo | Histórica/causal |
+| Perú: élites del poder y captura política | John Crabtree y Francisco Durand | Captura política, Estado desconectado, asimetrías de poder, representación y confianza | Política/causal |
+| Lavado de dinero y corrupción política | Edgardo Buscaglia | Flujos ilícitos, facilitadores, inteligencia financiera, debida diligencia y coordinación penal-patrimonial-financiera | Comparativa/institucional |
+| The Myth of Normal | Gabor Maté con Daniel Maté | Desigualdad, baja agencia, aislamiento, conexión social y estrés desde un marco biopsicosocial | Conceptual internacional |
 
-Estas fuentes **no deben transformarse automáticamente en coeficientes numéricos**. Su función es justificar estructura causal, construir hipótesis y contextualizar resultados.
+Los cuatro últimos documentos fueron aportados al proyecto como material de análisis. La aplicación registra metadatos y síntesis conceptuales, pero **no redistribuye los textos fuente**.
+
+### Regla de interpretación
+
+- Quiroz y Crabtree/Durand pueden fundamentar relaciones históricas e institucionales específicas del Perú, pero no convierten por sí solos una relación cualitativa en un coeficiente estadístico.
+- Buscaglia aporta mecanismos comparados sobre lavado y controles institucionales; sus magnitudes internacionales no deben transferirse automáticamente al Perú.
+- Maté se emplea como marco conceptual biopsicosocial. No es una fuente de calibración peruana ni se usa para atribuir causalidad clínica individual.
+- FAOSTAT y OMS son fuentes secundarias internacionales para contraste longitudinal y validación; no desplazan a las fuentes nacionales cuando existe una medición peruana equivalente.
+
+## Niveles de evidencia causal en V2.1
+
+Las relaciones del grafo pueden etiquetarse como:
+
+- `apoyada`: existe fundamento directo suficiente en las fuentes registradas para conservar la dirección causal como relación documentada.
+- `hipótesis`: relación plausible que sirve para exploración sistémica y necesita validación empírica adicional antes de tratarse como relación observada.
+
+Los coeficientes del simulador siguen siendo **heurísticos**, incluso cuando el signo de la relación está apoyado documentalmente.
 
 ## Pipeline futuro
 
@@ -42,8 +60,9 @@ Estas fuentes **no deben transformarse automáticamente en coeficientes numéric
 3. Transformar a esquema común de observaciones.
 4. Registrar unidad, periodo, territorio y fuente.
 5. Validar consistencia temporal y geográfica.
-6. Solo después vincular la serie a una variable del simulador.
-7. Registrar versión del modelo y parámetros de calibración.
+6. Vincular la serie a una variable solo después de la validación.
+7. Calibrar parámetros y conservar la versión del modelo.
+8. Separar claramente dato observado, indicador derivado, hipótesis y resultado simulado.
 
 ## Control de vigencia
 
