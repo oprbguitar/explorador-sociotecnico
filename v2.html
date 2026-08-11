@@ -3,12 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Explorador Socio-Técnico del Perú — versión 2: sistema, causalidad, historia, cultura, nutrición y evidencia.">
+  <meta name="description" content="Explorador Socio-Técnico del Perú — versión 2.1: sistema, causalidad, historia, cultura, nutrición, institucionalidad y simulación.">
+  <meta name="theme-color" content="#111827">
   <title>Explorador Socio-Técnico del Perú — V2</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="v2.css">
+  <link rel="stylesheet" href="v2-enhancements.css">
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.26.0/cytoscape.min.js"></script>
 </head>
@@ -30,7 +33,7 @@
       <div class="brand-block">
         <span class="eyebrow">LABORATORIO SOCIOTÉCNICO</span>
         <h1>Perú</h1>
-        <p>Cinco ejes, múltiples lentes, una misma base de evidencia.</p>
+        <p>Cinco ejes, múltiples lentes y una misma arquitectura de evidencia.</p>
       </div>
 
       <label class="search-box">
@@ -60,7 +63,7 @@
 
       <section class="control-section compact">
         <div class="section-label">Método</div>
-        <p class="microcopy">Datos observados, fuentes históricas y relaciones causales se muestran por separado. La simulación experimental está identificada explícitamente.</p>
+        <p class="microcopy">Datos observados, evidencia histórica y relaciones causales se mantienen diferenciados. Las relaciones hipotéticas y la simulación experimental se identifican expresamente.</p>
       </section>
 
       <button id="resetView" class="reset-btn"><i data-lucide="refresh-cw"></i> Restablecer vista</button>
@@ -82,7 +85,7 @@
           <span><span class="status-dot"></span> Modelo cargado</span>
           <span id="nodeCount">0 nodos</span>
           <span id="sourceCount">0 fuentes</span>
-          <span class="experimental">V2 experimental</span>
+          <span class="experimental">V2.1 experimental</span>
         </div>
       </header>
 
@@ -96,6 +99,34 @@
         <button class="lens-tab" data-lens="evidence">Evidencia</button>
         <button class="lens-tab" data-lens="simulation">Simulación</button>
       </nav>
+
+      <section id="simulationPanel" class="simulation-panel simulation-inline hidden">
+        <div class="simulation-head">
+          <div>
+            <span class="eyebrow">ESCENARIO SISTÉMICO NORMALIZADO</span>
+            <h3>Dinámica institucional, social, cultural y nutricional</h3>
+          </div>
+          <span class="warning-pill">No predictivo</span>
+        </div>
+        <p id="simulationDisclaimer" class="simulation-note"></p>
+        <div id="scenarioPresets" class="scenario-presets" aria-label="Escenarios predefinidos"></div>
+        <div class="simulation-grid">
+          <div class="sliders">
+            <label>Presión migratoria / territorial <output id="migrationValue">55</output><input id="migrationSlider" type="range" min="0" max="100" value="55"></label>
+            <label>Integración / penetración de mercados <output id="marketValue">65</output><input id="marketSlider" type="range" min="0" max="100" value="65"></label>
+            <label>Capacidad estatal y de servicios <output id="capacityValue">48</output><input id="capacitySlider" type="range" min="0" max="100" value="48"></label>
+            <label>Integridad institucional y controles <output id="integrityValue">42</output><input id="integritySlider" type="range" min="0" max="100" value="42"></label>
+            <label>Cohesión / redes comunitarias <output id="communityValue">58</output><input id="communitySlider" type="range" min="0" max="100" value="58"></label>
+            <label>Resiliencia cultural y alimentaria <output id="resilienceValue">57</output><input id="resilienceSlider" type="range" min="0" max="100" value="57"></label>
+            <button id="runSimulation" class="run-btn"><i data-lucide="play"></i> Ejecutar 24 periodos</button>
+          </div>
+          <div class="sim-results">
+            <div id="simDiagnosis" class="simulation-diagnosis"></div>
+            <div id="simMetrics" class="metric-grid"></div>
+            <svg id="simChart" viewBox="0 0 760 250" role="img" aria-label="Evolución de índices normalizados del escenario"></svg>
+          </div>
+        </div>
+      </section>
 
       <section class="canvas-grid">
         <div class="canvas-card">
@@ -117,6 +148,8 @@
             <span><i class="legend-dot source"></i>Fuente</span>
             <span><b>+</b> misma dirección</span>
             <span><b>−</b> dirección contraria</span>
+            <span class="legend-status">relación apoyada</span>
+            <span class="legend-status hypothesis">hipótesis a validar</span>
           </div>
         </div>
 
@@ -128,34 +161,10 @@
           </div>
         </aside>
       </section>
-
-      <section id="simulationPanel" class="simulation-panel hidden">
-        <div class="simulation-head">
-          <div>
-            <span class="eyebrow">EXPERIMENTO NORMALIZADO</span>
-            <h3>Laboratorio de escenarios</h3>
-          </div>
-          <span class="warning-pill">No predictivo</span>
-        </div>
-        <p id="simulationDisclaimer" class="simulation-note"></p>
-        <div class="simulation-grid">
-          <div class="sliders">
-            <label>Migración / presión territorial <output id="migrationValue">58</output><input id="migrationSlider" type="range" min="0" max="100" value="58"></label>
-            <label>Penetración de mercados <output id="marketValue">68</output><input id="marketSlider" type="range" min="0" max="100" value="68"></label>
-            <label>Capacidad institucional <output id="capacityValue">48</output><input id="capacitySlider" type="range" min="0" max="100" value="48"></label>
-            <label>Resiliencia cultural <output id="resilienceValue">57</output><input id="resilienceSlider" type="range" min="0" max="100" value="57"></label>
-            <button id="runSimulation" class="run-btn"><i data-lucide="play"></i> Ejecutar 20 periodos</button>
-          </div>
-          <div class="sim-results">
-            <div id="simMetrics" class="metric-grid"></div>
-            <svg id="simChart" viewBox="0 0 700 240" role="img" aria-label="Evolución de índices normalizados"></svg>
-          </div>
-        </div>
-      </section>
     </main>
   </div>
 
-  <script src="v2-data.js"></script>
-  <script src="v2.js"></script>
+  <script src="v2-data-next.js"></script>
+  <script src="v2-next.js"></script>
 </body>
 </html>
