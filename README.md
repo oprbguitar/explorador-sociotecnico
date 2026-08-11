@@ -14,6 +14,9 @@ y un simulador estocástico.
 
 ### 🚀 [ABRIR LA VERSIÓN 3 →](https://oprbguitar.github.io/explorador-sociotecnico/v3.html)
 
+Publicado en GitHub Pages. Las tres versiones conviven y se alcanzan
+desde el selector superior de cualquiera de ellas.
+
 [V1 · original](https://oprbguitar.github.io/explorador-sociotecnico/) ·
 [V2 · lentes múltiples](https://oprbguitar.github.io/explorador-sociotecnico/v2.html) ·
 **[V3 · Circulación](https://oprbguitar.github.io/explorador-sociotecnico/v3.html)**
@@ -25,6 +28,10 @@ y un simulador estocástico.
 ![dependencias](https://img.shields.io/badge/dependencias_externas-0-17A05C?style=flat-square)
 ![licencia](https://img.shields.io/badge/código-MIT-F2C12E?style=flat-square)
 ![contenido](https://img.shields.io/badge/contenido-CC_BY_4.0-F0731A?style=flat-square)
+
+<br>
+
+![Panorama de la V3](docs/img/v3-panorama.png)
 
 </div>
 
@@ -87,6 +94,11 @@ flowchart LR
 Esa asimetría —reforzadores automáticos, balanceadores voluntarios— es el hallazgo estructural
 del modelo: por defecto, el sistema acumula tensión.
 
+En el explorador, ese mismo diagrama es interactivo: el pentágono de ejes queda dentro del
+anillo de las cuatro fases del ciclo, y cada nodo y cada arista abren su ficha.
+
+![Lente Sistema — pentágono de ejes dentro del anillo cíclico](docs/img/v3-sistema.png)
+
 ---
 
 ## Qué trae la V3
@@ -132,6 +144,30 @@ causales en CSV, serie del simulador en CSV, e impresión a PDF.
 </td></tr>
 </table>
 
+<br>
+
+### Circulación — qué se mueve y a qué velocidad
+
+Cinco flujos recorren el pentágono. Cada uno tiene su velocidad, su unidad y un ancla empírica.
+El desfase entre un flujo inmediato y un stock que cambia en décadas es lo que produce la tensión.
+
+![Lente Circulación](docs/img/v3-circulacion.png)
+
+### Corrupción — el bucle, no el escándalo
+
+Seis nodos y dos lazos. El reforzador —renta, desvío, captura, impunidad— se cierra solo.
+El balanceador —integridad y control patrimonial— solo corrige mientras se le sostenga.
+
+![Módulo de corrupción](docs/img/v3-corrupcion.png)
+
+### Simulador — la distribución, no el caso
+
+Monte Carlo sobre 240 escenarios aleatorios válidos, con banda de percentiles y análisis de
+sensibilidad. En la corrida de referencia, integridad y controles (−0,87) y capacidad estatal
+(−0,85) dominan sobre presión migratoria (+0,40) e integración de mercados (+0,32).
+
+![Simulador con Monte Carlo y sensibilidad](docs/img/v3-simulador.png)
+
 ---
 
 ## Los once capítulos
@@ -149,6 +185,16 @@ causales en CSV, serie del simulador en CSV, e impresión a PDF.
 | 9 | **Historia** | Dieciséis hitos que muestran la repetición de las fases |
 | 10 | **Simulador** | Qué palanca pesa más cuando se prueba todo el espacio de escenarios |
 | 11 | **Evidencia** | 27 fuentes con su rol, glosario operativo y reglas del proyecto |
+
+<br>
+
+El eje nutricional es el corazón del esquema: el único donde el sistema deja de ser abstracto
+y se vuelve medible en el cuerpo. Un país con anemia infantil en más de un tercio de los niños
+y obesidad en uno de cada cuatro adultos no tiene dos problemas nutricionales — tiene un solo
+circuito que entrega poca densidad de nutrientes y mucha densidad de energía, de forma desigual
+por territorio, por ingreso y por tiempo disponible.
+
+![Lente Nutrición](docs/img/v3-nutricion.png)
 
 ---
 
